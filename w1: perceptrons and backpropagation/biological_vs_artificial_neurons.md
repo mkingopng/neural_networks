@@ -20,12 +20,12 @@ neuron. Each input $x_i$ is multiplied by a corresponding weight $w_0$ and the
 results are added together. An extra constant $w_0$ called the bias is also 
 added.
 
-$$s = w_0 _ \sum_i w_i x_i$$
+$$ s = w_0 _ \sum_i w_i x_i $$
 
 Finally, a non-linear transfer function is applied to this linear combination 
 to produce the output of the neuron.
 
-$$z = g(s) = g(w_0 + \sum_i w_i X_i)$$
+$$ z = g(s) = g(w_0 + \sum_i w_i X_i) $$
 
 ![img.png](images/img_9.png)
 
