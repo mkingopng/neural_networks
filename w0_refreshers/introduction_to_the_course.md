@@ -58,7 +58,7 @@ the questions yourself before looking at the sample answers.
 Questions and discussion relating to all aspects of the course can be posted to 
 the discussion board for this Ed site.
 
-## TextBook
+## Text Book
 The textbook for this course is: Deep Learning By Ian Goodfellow, Yoshua Bengio 
 and Aaron Courville, MIT Press 
     http://www.deeplearningbook.org - available for free online by the authors
