@@ -2,7 +2,7 @@
 
 ## Biological Neurons
 
-![](images/img_8.png)
+![](img_8.png)
 
 The brain is made up of neurons (nerve cells) which have:
 - a cell body (soma)
@@ -27,13 +27,13 @@ to produce the output of the neuron.
 
 $$ z = g(s) = g(w_0 + \sum_i w_i X_i) $$
 
-![img.png](images/img_9.png)
+![img.png](img_9.png)
 
 ## Transfer Function
 The original transfer function used by McCulloch and Pitts was a discontinuous 
 step function (also called the Heaviside function).
 
-![img.png](images/img_10.png)
+![img.png](img_10.png)
 
 $insert latex$
 
@@ -57,11 +57,11 @@ space of inputs into two regions. For inputs on one side of this hyperplane,
 the output will be 0; for inputs on the other side, the output will be 1.  
 Functions which can be computed in this way are called Linearly Separable.
 
-![img.png](images/img_11.png)
+![img.png](img_11.png)
 
 # Rosenblatt Perceptron
 
-![img_1.png](images/img_12.png)
+![img_1.png](img_12.png)
 
 The Perceptron was introduced by Frank Rosenblatt in 1957. One of the tasks he 
 was interested in was taking the pixels from black and white images of 
@@ -84,7 +84,7 @@ Perceptrons to compute these functions. This diagram shows the AND an
 Exclusive OR (XOR) which cannot be computed by a Perceptron, because it is not 
 linearly separable.
 
-![img_2.png](images/img_13.png)
+![img_2.png](img_13.png)
 
 These are the weights for Perceptrons to compute the AND and OR function, and the opposite of OR, sometimes called NOR which stands for "Not OR".
 

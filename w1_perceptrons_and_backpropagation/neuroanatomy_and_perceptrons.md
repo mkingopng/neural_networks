@@ -21,7 +21,7 @@ to be trained by gradient descent
 - explain how to avoid overfitting in neural networks
 
 # History & Neuroanatomy
-![img.png](images/img.png)
+![img.png](img.png)
 
 "For the machine is not a thinking being, but simply an automation which acts 
 according to the laws imposed upon it."
@@ -34,7 +34,7 @@ to Blaise Pascal and Gottfried Leibniz in the 1600's, was developed in the
 1800's by George Boole, Gottlob Frege, Charles Babbage and Ada Lovelace, and in 
 the early 1900's by Alan Turing.
 
-![img_1.png](images/img_1.png)
+![img_1.png](img_1.png)
 
 The modern field of Artificial Intelligence (AI) perhaps began in earnest with 
 a workshop at Dartmouth College in the summer of 1956. In the early days of AI, 
@@ -48,7 +48,7 @@ chiefly from a class of models called Deep Neural Networks which are inspired
 by the structure of the human brain.
 
 ## Sub Symbolic Processing
-![img_2.png](images/img_2.png)
+![img_2.png](img_2.png)
 
 Can you see an animal in this picture? What kind of animal is it? What 
 direction is it facing?
@@ -62,10 +62,10 @@ from which the identity of the object is extracted.
 https://youtu.be/owFnH01SD-s
 
 ## Cerebral Cortex
-![img_3.png](images/img_3.png)
+![img_3.png](img_3.png)
 
 ## Brain Functions
-![img_4.png](images/img_4.png)
+![img_4.png](img_4.png)
 
 ## Neurons
 The body is made up of billions of cells. Cells of the nervous system, called 
@@ -76,7 +76,7 @@ cells in the body. For example, they are surrounded by a cell membrane, they
 have a nucleus containing genes (DNA), and they  carry out basic cellular 
 processes like protein synthesis and energy production.
 
-![img_5.png](images/img_5.png)
+![img_5.png](img_5.png)
 
 Neurons also have certain features which distinguish them from other body 
 cells. They have specialized extensions called dendrites and axons. Dendrites 
@@ -85,7 +85,7 @@ cell body. The axon of one neuron can connect to the dendrite of another neuron
 through an electrochemical junction called a synapse.
 
 ## variety of Neuron Types
-![img_6.png](images/img_6.png)
+![img_6.png](img_6.png)
 
 Most neurons have only one axon, but the number of dendrites can vary widely. 
 Unipolar and Bipolar neurons have only one dendrite, but Purkinje neurons in 
@@ -96,7 +96,7 @@ surrounded by a myelinated sheath, which prevents the electrical signal from
 dispersing, and allows it to travel faster (up to 100 m/s).
 
 ## Synapses, Neurotransmitter and Ion Channels
-![img_7.png](images/img_7.png)
+![img_7.png](img_7.png)
 
 An electrical pulse reaches the endbulb and causes the release of 
 neurotransmitter molecules from little packets (vesicles) through the synaptic 

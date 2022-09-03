@@ -23,7 +23,7 @@ test set.
 The Perceptron Learning Algorithm was introduced by Frank Rosenblatt in 1957, 
 and is one of the earliest examples of Supervised Learning.
 
-![img_14.png](images/img_14.png)
+![img_14.png](img_14.png)
 
 Perceptron Learning Algorithm
 
@@ -47,7 +47,7 @@ Rosenblatt proved that this algorithm will always learn to classify the
 training data successfully, provided the data are linearly separable.
 
 ## Perceptron Learning Example: 
-![img_15.png](images/img_15.png)
+![img_15.png](img_15.png)
 
 Let's assume a learning rate of η=0.1\eta = 0.1η=0.1, with these initial weights:
 
@@ -60,7 +60,7 @@ s=w0+w1x1+w2x2>0s = w_0 + w_1 x_1 + w_2 x_2 > 0
 s=w0​+w1​x1​+w2​x2​>0
 
 ## Training step 1
-![img_16.png](images/img_16.png)
+![img_16.png](img_16.png)
 
 Suppose the first training item is (1,1)(1,1)(1,1) and that it is Negative. We have
 
@@ -73,7 +73,7 @@ w0←w0−η=−0.2w1←w1−ηx1=0.1w2←w2−ηx2=−0.1\begin{aligned}w_{0} &
 w0​w1​w2​​←w0​−η=−0.2←w1​−ηx1​=−0.1←w2​−ηx2​=−0.1​
 
 ## Training step 2
-![img_17.png](images/img_17.png)
+![img_17.png](img_17.png)
 
 Suppose the next training item is (2,1)(2,1)(2,1) and is Positive. We have
 
@@ -93,7 +93,7 @@ s=−0.1+0.3×1.5+0.0×0.5=0.35>0
 
 So, we do not need to change the weights.
 
-![img_18.png](images/img_18.png)
+![img_18.png](img_18.png)
 
 ## Training step 4
 Suppose the next item is (2,22,22,2) and is Negative.
@@ -105,7 +105,7 @@ w0←w0−η=−0.2w1←w1−ηx1=0.1w2←w2−ηx2=−0.2\begin{aligned}w_{0} &
 w0​w1​w2​​←w0​−η=−0.2←w1​−ηx1​=−0.1←w2​−ηx2​=−0.2​
 
 ## Final outcome
-![img_19.png](images/img_19.png)
+![img_19.png](img_19.png)
 
 Continuing in this way, we will eventually reach a point where all the data are 
 correctly classified (provided they are linearly separable).
