@@ -6,10 +6,12 @@ if you want to process one image at a time, your input is 28 x 28, however
 pytorch allows for batch processing which changes things.
 
 if you are using a CNN you are not reshaping into a vector. you are passing
-28 x 28 to the model. The size of the feature map may be down-sampled especially
-for classification.
+28 x 28 to the model. The size of the feature map may be down-sampled
+especially for classification.
 
 the CNN part is covered in week 3. The other parts can probably be done now.
+
+Refer to typed notes from week 2 tutorial
 """
 
 # kuzu_main.py
