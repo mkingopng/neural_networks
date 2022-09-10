@@ -18,7 +18,7 @@ bias).
 The first step is to plot the data on a 2-D graph, and draw a line which 
 separates the positive from the negative data points:
 
-![img.png](img_20.png)
+![img.png](images/img_20.png)
 
 This line has slope -½ and $x_2$-intersect dfrac{5}{4}, so its equation is:
 
@@ -34,7 +34,7 @@ Alternatively, we can derive weights w1w_1w1​=1 and w2w_2w2​=2 by drawing
 a vector normal to the separating line, in the direction pointing towards the 
 positive data points:
 
-![img_1.png](img_21.png)
+![img_1.png](images/img_21.png)
 
 The bias weight $w_0$ can then be found by computing the dot product of 
 the normal vector with a perpendicular vector from the separating line to the 

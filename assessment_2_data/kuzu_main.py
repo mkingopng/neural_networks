@@ -13,7 +13,6 @@ the CNN part is covered in week 3. The other parts can probably be done now.
 
 Refer to typed notes from week 2 tutorial
 """
-
 # kuzu_main.py
 # ZZEN9444, CSE, UNSW
 
