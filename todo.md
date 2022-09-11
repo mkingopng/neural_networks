@@ -52,15 +52,20 @@
 - basic pytorch operations
 - hidden unit dynamics
 ## video recordings & notes:
-  - cross entropy (7:38)
-  - softmax (3:55)
-  -  ()
-  -  ()
-  -  ()
+  - cross entropy (7:38) 🗸
+  - softmax (3:55) 🗸
+  - weight decay (6:36) 🗸
+  - momentum (8:47) 🗸
+  - adam () 🗸
+  - pytorch (52:49) 
+  - limitations of two layer sigmoidal neural networks (10:37) 🗸
 ## readings
 - adam - a method for stochastic optimisation
 - an overview of gradient descent
 - Barkinok's Rational Functions
+- learning to tell two spirals apart
+- ruder.io
+- deep learning (6.3, 5.2.2, 5.6.1, 8.3, 8.5)
 ------------------------------------------------------
 # week 3: computer vision
 ## lecture slides
@@ -143,9 +148,12 @@
 
 --------------------------------------------------------
 # Thoughts
-why do we not need to know stdev in derivations least squares?
+why do we not need to know standard deviation in derivations least squares?
 
-what's the difference between shannon's entropy, boltzmann plank entropy, and Gibbs-Von Neumann Entropy?
+what is hook's law?
+
+what's the difference between shannon's entropy, boltzmann plank entropy, and 
+Gibbs-Von Neumann Entropy?
 
 what library do you use for augmentation in CV? I've mainly used albumentations.
 
@@ -178,6 +186,22 @@ how do you fine tune your hyperparameters? I've been using optuna, ray and wandb
 How do you tune HPs?
 
 i wonder how i can use dropout to improve?
+
+in terms of hardware, what do you use? I'm thinking mainly about GPU. 
+
+I used to have an rtx2060 with 8GB vram. I still have that but i really only 
+use it for debugging now. I upgraded to an rtx3090 which has generally been 
+quite good, the exception has been NLP, where i have found that in some cases i 
+can only run batch size = 1 before i run out of memory. I have tried renting GPU 
+clusters on AWS and the training is MUCH faster, but of course there is an immediate 
+cost and you don't have direct control of the hardware. I've found running in 
+sagemaker can be a little limiting as it often doesn't have the very latest models.
+I've only used AWS a couple of times, but when i do i dockerize my project rather 
+than run on sagemaker. If i had a ton of money I'd buy a DGX or something.
+
+I think its probably still the best option. Buying a 4 pack of a100s would be 
+very expensive. I figure i can rent about 1000 hours of AWS time before it gets 
+close to the cost of buying the GPUs. 
 
 In Chapter 1, the textbook talks about emphasis having swung back to large labelled data sets.
 Obviously the book was published in 2016 and things have changed.
