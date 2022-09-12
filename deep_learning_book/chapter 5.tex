@@ -10,6 +10,1413 @@
 % Document
 \begin{document}
 
+Chapter 5
+Machine Learning Basics
 
+Deep learning is a speciﬁc kind of machine learning.
+To understand deep learning well, one must have a solid understanding of the basic principles of machine learning.
+This chapter provides a brief course in the most important general principles that are applied throughout the rest of the book.
+Novice readers or those who want a wider perspective are encouraged to consider machine learning textbooks with a more comprehensive coverage of the fundamentals, such as Murphy (2012) or Bishop (2006).
+If you are already familiar with machine learning basics, feel free to skip ahead to section 5.11.
+That section covers some perspectives on traditional machine learning techniques that have strongly influenced the development of deep learning algorithms.
+
+We begin with a deﬁnition of what a learning algorithm is and present an
+example: the linear regression algorithm. We then proceed to describe how the
+challenge of ﬁtting the training data diﬀers from the challenge of ﬁnding patterns
+that generalize to new data. Most machine learning algorithms have settings
+called hyperparameters, which must be determined outside the learning algorithm
+itself; we discuss how to set these using additional data. Machine learning is
+essentially a form of applied statistics with increased emphasis on the use of
+computers to statistically estimate complicated functions and a decreased emphasis
+on proving conﬁdence intervals around these functions; we therefore present the
+two central approaches to statistics: frequentist estimators and Bayesian inference.
+Most machine learning algorithms can be divided into the categories of supervised
+learning and unsupervised learning; we describe these categories and give some
+examples of simple learning algorithms from each category. Most deep learning
+algorithms are based on an optimization algorithm called stochastic gradient
+descent. We describe how to combine various algorithm components, such as
+an optimization algorithm, a cost function, a model, and a dataset, to build a
+machine learning algorithm. Finally, in section 5.11, we describe some of the
+factors that have limited the ability of traditional machine learning to generalize.
+These challenges have motivated the development of deep learning algorithms that
+overcome these obstacles.
+
+5.1 Learning Algorithms
+
+A machine learning algorithm is an algorithm that is able to learn from data.
+But what do we mean by learning? Mitchell (1997) provides a succinct definition:
+`A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E'.
+`One can imagine a wide variety of experiences E, tasks T, and performance measures P, and we do not attempt in this book to formally define what may be used for each of these entities.
+Instead, in the following sections, we provide intuitive descriptions and examples of the different kinds of tasks, performance measures, and experiences that can be used to construct machine learning algorithms.
+
+5.1.1 The Task, T
+
+Machine learning enables us to tackle tasks that are too diﬃcult to solve with fixed programs written and designed by human beings.
+From a scientific and philosophical point of view, machine learning is interesting because developing our understanding of it entails developing our understanding of the principles that underlie intelligence.
+In this relatively formal definition of the word “task,” the process of learning itself is not the task.
+Learning is our means of attaining the ability to perform the task.
+For example, if we want a robot to be able to walk, then walking is the task.
+We could program the robot to learn to walk, or we could attempt to directly write a program that specifies how to walk manually.
+Machine learning tasks are usually described in terms of how the machine learning system should process an example.
+An example is a collection of features that have been quantitatively measured from some object or event that we want the machine learning system to process.
+We typically represent an example as a vector x ∈ R n where each entry x i of the vector is another feature.
+For example, the features of an image are usually the values of the pixels in the image.
+
+Many kinds of tasks can be solved with machine learning.
+Some of the most common machine learning tasks include the following:
+
+- Classification: In this type of task, the computer program is asked to specify which of k categories some input belongs to.
+To solve this task, the learning algorithm is usually asked to produce a function f : R n → {1, . . . , k}.
+When y=f(x), the model assigns an input described by vector x to a category identified by numeric code y.
+There are other variants of the classification task, for example, where f outputs a probability distribution over classes.
+An example of a classification task is object recognition, where the input is an image (usually described as a set of pixel brightness values), and the
+output is a numeric code identifying the object in the image.
+For example, the Willow Garage PR2 robot is able to act as a waiter that can recognize different kinds of drinks and deliver them to people on command (Goodfellow et al., 2010).
+Modern object recognition is best accomplished with deep learning (Krizhevsky et al., 2012; Ioffe and Szegedy, 2015).
+Object recognition is the same basic technology that enables computers to recognize faces (Taigman et al., 2014), which can be used to automatically tag people in photo collections and for computers to interact more naturally with their users.
+
+Classification with missing inputs: Classification becomes more challenging if the computer program is not guaranteed that every measurement in its input vector will always be provided.
+To solve the classification task, the learning algorithm only has to define a single function mapping from a vector input to a categorical output.
+When some inputs may be missing, rather than providing a single classification function, the learning algorithm must learn a set of functions.
+Each function corresponds to classifying x with a different subset of its inputs missing.
+This kind of situation arises frequently in medical diagnosis, because many kinds of medical tests are expensive or invasive.
+One way to eﬃciently define such a large set of functions is to learn a probability distribution over all the relevant variables, then solve the classification task by marginalizing out the missing variables.
+With n input variables, we can now obtain all 2n different classiﬁcation functions needed for each possible set of missing inputs, but the computer program needs to learn only a single function describing the joint probability distribution.
+See Goodfellow et al. (2013b) for an example of a deep probabilistic model applied to such a task in this way.
+Many of the other tasks described in this section can also be generalized to work with missing inputs;
+classification with missing inputs is just one example of what machine learning can do.
+
+Regression: In this type of task, the computer program is asked to predict a numerical value given some input.
+To solve this task, the learning algorithm is asked to output a function f: Rn → R .
+This type of task is similar to classification, except that the format of output is different.
+An example of a regression task is the prediction of the expected claim amount that an insured person will make (used to set insurance premiums), or the prediction of future prices of securities.
+These kinds of predictions are also used for algorithmic trading.
+
+Transcription: In this type of task, the machine learning system is asked to observe a relatively unstructured representation of some kind of data and transcribe the information into discrete textual form.
+For example, in optical character recognition, the computer program is shown a photograph containing an image of text and is asked to return this text in the form of a sequence of characters (e.g., in ASCII or Unicode format).
+Google Street View uses deep learning to process address numbers in this way (Goodfellow et al., 2014d).
+Another example is speech recognition, where the computer program is provided an audio waveform and emits a sequence of characters or word ID codes describing the words that were spoken in the audio recording.
+Deep learning is a crucial component of modern speech recognition systems used at major companies, including Microsoft, IBM and Google (Hinton et al., 2012b).
+
+Machine translation: In a machine translation task, the input already consists of a sequence of symbols in some language, and the computer program must convert this into a sequence of symbols in another language.
+This is commonly applied to natural languages, such as translating from English to French.
+Deep learning has recently begun to have an important impact on this kind of task (Sutskever et al., 2014; Bahdanau et al., 2015).
+
+Structured output: Structured output tasks involve any task where the output is a vector (or other data structure containing multiple values) with important relationships between the different elements.
+This is a broad category and subsumes the transcription and translation tasks described above, as well as many other tasks.
+One example is parsing—mapping a natural language sentence into a tree that describes its grammatical structure by tagging nodes of the trees as being verbs, nouns, adverbs, and so on.
+See Collobert (2011) for an example of deep learning applied to a parsing task.
+Another example is pixel-wise segmentation of images, where the computer program assigns every pixel in an image to a specific category.
+
+For example, deep learning can be used to annotate the locations of roads in aerial photographs (Mnih and Hinton, 2010).
+The output form need not mirror the structure of the input as closely as in these annotation-style tasks.
+For example, in image captioning, the computer program observes an image and outputs a natural language sentence describing the image (Kiros et al., 2014a,b; Mao et al., 2015; Vinyals et al., 2015b; Donahue et al., 2014; Karpathy and Li, 2015; Fang et al., 2015; Xu et al., 2015).
+These tasks are called structured output tasks because the program must output several values that are all tightly interrelated.
+For example, the words produced by an image captioning program must form a valid sentence.
+
+Anomaly detection: In this type of task, the computer program sifts through a set of events or objects and flags some of them as being unusual or atypical.
+An example of an anomaly detection task is credit card fraud detection.
+By modeling your purchasing habits, a credit card company can detect misuse of your cards.
+If a thief steals your credit card or credit card information, the thief’s purchases will often come from a different probability distribution over purchase types than your own.
+The credit card company can prevent fraud by placing a hold on an account as soon as that card has been used for an uncharacteristic purchase.
+See Chandola et al. (2009) for a survey of anomaly detection methods.
+
+Synthesis and sampling: In this type of task, the machine learning al-
+gorithm is asked to generate new examples that are similar to those in the
+training data. Synthesis and sampling via machine learning can be useful
+for media applications when generating large volumes of content by hand
+would be expensive, boring, or require too much time. For example, video
+games can automatically generate textures for large objects or landscapes,
+rather than requiring an artist to manually label each pixel (Luo et al., 2013).
+In some cases, we want the sampling or synthesis procedure to generate a
+speciﬁc kind of output given the input. For example, in a speech synthesis
+task, we provide a written sentence and ask the program to emit an audio
+waveform containing a spoken version of that sentence. This is a kind of
+structured output task, but with the added qualiﬁcation that there is no
+single correct output for each input, and we explicitly desire a large amount
+of variation in the output, in order for the output to seem more natural and
+realistic.
+
+Imputation of missing values: In this type of task, the machine learning
+algorithm is given a new example x ∈ Rn, but with some entries x i of x
+missing. The algorithm must provide a prediction of the values of the missing
+entries.
+
+Denoising: In this type of task, the machine learning algorithm is given as input a corrupted example ˜ x ∈ R n obtained by an unknown corruption process from a clean example x ∈ R n. The learner must predict the clean example x from its corrupted version ˜ x, or more generally predict the conditional probability distribution p(x |˜ x).
+
+Density estimation
+or
+probability mass function estimation
+: In the
+density estimation problem, the machine learning algorithm is asked to learn a
+function
+p
+model
+:
+R
+n
+→ R
+, where
+p
+model
+(
+x
+) can be interpreted as a probability
+density function (if
+x
+is continuous) or a probability mass function (if
+x
+is
+discrete) on the space that the examples were drawn from. To do such a task
+well (we will specify exactly what that means when we discuss performance
+measures
+P
+), the algorithm needs to learn the structure of the data it has seen.
+It must know where examples cluster tightly and where they are unlikely to
+occur. Most of the tasks described above require the learning algorithm to at
+least implicitly capture the structure of the probability distribution. Density
+estimation enables us to explicitly capture that distribution. In principle,
+we can then perform computations on that distribution to solve the other
+tasks as well. For example, if we have performed density estimation to obtain
+a probability distribution
+p
+(
+x
+), we can use that distribution to solve the
+missing value imputation task. If a value
+x
+i
+is missing, and all the other
+values, denoted
+x
+−i
+, are given, then we know the distribution over it is given
+by
+p
+(
+x
+i
+| x
+−i
+). In practice, density estimation does not always enable us to
+solve all these related tasks, because in many cases the required operations
+on p(x) are computationally intractable.
+
+Of course, many other tasks and types of tasks are possible. The types of tasks
+we list here are intended only to provide examples of what machine learning can
+do, not to deﬁne a rigid taxonomy of tasks.
+
+5.1.2 The Performance Measure, P
+
+To evaluate the abilities of a machine learning algorithm, we must design a quantitative measure of its performance.
+Usually this performance measure P is speciﬁc to the task T being carried out by the system.
+
+For tasks such as classification, classification with missing inputs, and transcription, we often measure the accuracy of the model.
+Accuracy is just the proportion of examples for which the model produces the correct output.
+We can also obtain equivalent information by measuring the error rate, the proportion of examples for which the model produces an incorrect output.
+We often refer to the error rate as the expected 0-1 loss.
+The 0-1 loss on a particular example is 0 if it is correctly classiﬁed and 1 if it is not.
+For tasks such as density estimation, it does not make sense to measure accuracy, error rate, or any other kind of 0-1 loss.
+Instead, we must use a different performance metric that gives the model a continuous-valued score for each example.
+The most common approach is to report the average log-probability the model assigns to some examples.
+
+Usually we are interested in how well the machine learning algorithm performs
+on data that it has not seen before, since this determines how well it will work when
+deployed in the real world. We therefore evaluate these performance measures using
+a
+test set
+of data that is separate from the data used for training the machine
+learning system.
+The choice of performance measure may seem straightforward and objective,
+but it is often diﬃcult to choose a performance measure that corresponds well to
+the desired behavior of the system.
+
+In some cases, this is because it is diﬃcult to decide what should be measured.
+For example, when performing a transcription task, should we measure the accuracy
+of the system at transcribing entire sequences, or should we use a more ﬁne-grained
+performance measure that gives partial credit for getting some elements of the
+sequence correct? When performing a regression task, should we penalize the
+system more if it frequently makes medium-sized mistakes or if it rarely makes
+very large mistakes? These kinds of design choices depend on the application.
+In other cases, we know what quantity we would ideally like to measure, but
+measuring it is impractical. For example, this arises frequently in the context of
+density estimation. Many of the best probabilistic models represent probability
+distributions only implicitly. Computing the actual probability value assigned to
+a speciﬁc point in space in many such models is intractable. In these cases, one
+must design an alternative criterion that still corresponds to the design objectives,
+or design a good approximation to the desired criterion.
+
+5.1.3 The Experience, E
+
+Machine learning algorithms can be broadly categorized as unsupervised or supervised by what kind of experience they are allowed to have during the learning process.
+Most of the learning algorithms in this book can be understood as being allowed to experience an entire
+dataset
+. A dataset is a collection of many examples, as
+deﬁned in section 5.1.1. Sometimes we call examples data points.
+One of the oldest datasets studied by statisticians and machine learning re-
+searchers is the Iris dataset (Fisher, 1936). It is a collection of measurements
+of diﬀerent parts of 150 iris plants. Each individual plant corresponds to one
+example. The features within each example are the measurements of each part
+of the plant: the sepal length, sepal width, petal length and petal width. The
+dataset also records which species each plant belonged to. Three diﬀerent species
+are represented in the dataset.
+Unsupervised learning algorithms
+experience a dataset containing many
+features, then learn useful properties of the structure of this dataset. In the context
+of deep learning, we usually want to learn the entire probability distribution that
+generated a dataset, whether explicitly, as in density estimation, or implicitly, for
+tasks like synthesis or denoising. Some other unsupervised learning algorithms
+perform other roles, like clustering, which consists of dividing the dataset into
+clusters of similar examples.
+Supervised learning algorithms
+experience a dataset containing features,
+but each example is also associated with a
+label
+or
+target
+. For example, the Iris
+dataset is annotated with the species of each iris plant. A supervised learning
+algorithm can study the Iris dataset and learn to classify iris plants into three
+diﬀerent species based on their measurements.
+Roughly speaking, unsupervised learning involves observing several examples
+of a random vector
+x
+and attempting to implicitly or explicitly learn the proba-
+bility distribution
+p
+(
+x
+), or some interesting properties of that distribution; while
+supervised learning involves observing several examples of a random vector
+x
+and
+an associated value or vector
+y
+, then learning to predict
+y
+from
+x
+, usually by
+estimating
+p
+(
+y | x
+).
+The term supervised learning originates from the view of the target y being provided by an instructor or teacher who shows the machine learning system what to do.
+In unsupervised learning, there is no instructor or
+teacher, and the algorithm must learn to make sense of the data without this guide.
+Unsupervised learning and supervised learning are not formally deﬁned terms.
+The lines between them are often blurred.
+Many machine learning technologies can be used to perform both tasks.
+For example, the chain rule of probability states that for a vector x ∈ R n, the joint distribution can be decomposed as
+
+    insert function
+
+This decomposition means that we can solve the ostensibly unsupervised problem of modeling
+p
+(
+x
+) by splitting it into
+n
+supervised learning problems. Alternatively, we
+can solve the supervised learning problem of learning
+p
+(
+y | x
+) by using traditional
+unsupervised learning technologies to learn the joint distribution
+p
+(
+x, y
+), then
+inferring
+
+    insert function
+
+Though unsupervised learning and supervised learning are not completely formal or distinct concepts, they do help roughly categorize some of the things we do with machine learning algorithms.
+Traditionally, people refer to regression, classification and structured output problems as supervised learning.
+Density estimation in support of other tasks is usually considered unsupervised learning.
+Other variants of the learning paradigm are possible.
+For example, in semisupervised learning, some examples include a supervision target but others do not.
+In multi-instance learning, an entire collection of examples is labeled as containing or not containing an example of a class, but the individual members of the collection are not labeled.
+For a recent example of multi-instance learning with deep models, see Kotzias et al. (2015).
+Some machine learning algorithms do not just experience a fixed dataset.
+For example, reinforcement learning algorithms interact with an environment, so
+there is a feedback loop between the learning system and its experiences. Such
+algorithms are beyond the scope of this book.
+Please see Sutton and Barto (1998)or Bertsekas and Tsitsiklis (1996) for information about reinforcement learning,and Mnih et al. (2013) for the deep learning approach to reinforcement learning.
+Most machine learning algorithms simply experience a dataset.
+A dataset can be described in many ways.
+In all cases, a dataset is a collection of examples,which are in turn collections of features.
+
+One common way of describing a dataset is with a design matrix. A design
+matrix is a matrix containing a diﬀerent example in each row. Each column of the
+matrix corresponds to a diﬀerent feature. For instance, the Iris dataset contains
+150 examples with four features for each example. This means we can represent
+the dataset with a design matrix
+X ∈ R
+150×4
+, where
+X
+i,1
+is the sepal length of
+plant
+i
+,
+X
+i,2
+is the sepal width of plant
+i
+, etc. We describe most of the learning
+algorithms in this book in terms of how they operate on design matrix datasets.
+Of course, to describe a dataset as a design matrix, it must be possible to
+describe each example as a vector, and each of these vectors must be the same size.
+This is not always possible. For example, if you have a collection of photographs
+with diﬀerent widths and heights, then diﬀerent photographs will contain diﬀerent
+numbers of pixels, so not all the photographs may be described with the same
+
+length of vector. In Section 9.7 and chapter 10, we describe how to handle diﬀerent
+types of such heterogeneous data. In cases like these, rather than describing the
+dataset as a matrix with
+m
+rows, we describe it as a set containing
+m
+elements:
+{x
+(1)
+, x
+(2)
+, . . . , x
+(m)
+}
+. This notation does not imply that any two example vectors
+x
+(i)
+and x
+(j)
+have the same size.
+In the case of supervised learning, the example contains a label or target as
+well as a collection of features. For example, if we want to use a learning algorithm
+to perform object recognition from photographs, we need to specify which object
+appears in each of the photos. We might do this with a numeric code, with 0
+signifying a person, 1 signifying a car, 2 signifying a cat, and so forth. Often when
+working with a dataset containing a design matrix of feature observations
+X
+, we
+also provide a vector of labels y, with y
+i
+providing the label for example i.
+Of course, sometimes the label may be more than just a single number. For
+example, if we want to train a speech recognition system to transcribe entire
+sentences, then the label for each example sentence is a sequence of words.
+Just as there is no formal deﬁnition of supervised and unsupervised learning,
+there is no rigid taxonomy of datasets or experiences. The structures described here
+cover most cases, but it is always possible to design new ones for new applications.
+5.1.4 Example: Linear Regression
+Our deﬁnition of a machine learning algorithm as an algorithm that is capable
+of improving a computer program’s performance at some task via experience is
+somewhat abstract. To make this more concrete, we present an example of a
+simple machine learning algorithm:
+linear regression
+. We will return to this
+example repeatedly as we introduce more machine learning concepts that help to
+understand the algorithm’s behavior.
+As the name implies, linear regression solves a regression problem. In other
+words, the goal is to build a system that can take a vector
+x ∈ R
+n
+as input and
+predict the value of a scalar
+y ∈ R
+as its output. The output of linear regression is
+a linear function of the input. Let
+ˆy
+be the value that our model predicts
+y
+should
+take on. We deﬁne the output to be
+
+    insert function
+
+where w ∈ R
+n
+is a vector of parameters.
+Parameters are values that control the behavior of the system. In this case,
+w
+i
+is
+the coeﬃcient that we multiply by feature
+x
+i
+before summing up the contributions
+from all the features. We can think of
+w
+as a set of
+weights
+that determine how
+
+each feature aﬀects the prediction. If a feature
+x
+i
+receives a positive weight
+w
+i
+,
+then increasing the value of that feature increases the value of our prediction
+ˆy
+.
+If a feature receives a negative weight, then increasing the value of that feature
+decreases the value of our prediction. If a feature’s weight is large in magnitude,
+then it has a large eﬀect on the prediction. If a feature’s weight is zero, it has no
+eﬀect on the prediction.
+We thus have a deﬁnition of our task
+T
+: to predict
+y
+from
+x
+by outputting
+ˆy = w
+
+x. Next we need a deﬁnition of our performance measure, P .
+Suppose that we have a design matrix of
+m
+example inputs that we will not
+use for training, only for evaluating how well the model performs. We also have
+a vector of regression targets providing the correct value of
+y
+for each of these
+examples. Because this dataset will only be used for evaluation, we call it the test
+set. We refer to the design matrix of inputs as
+X
+(test)
+and the vector of regression
+targets as y
+(test)
+.
+One way of measuring the performance of the model is to compute the
+mean
+squared error
+of the model on the test set. If
+ˆ
+y
+(test)
+gives the predictions of the
+model on the test set, then the mean squared error is given by
+
+    insert function
+
+Intuitively, one can see that this error measure decreases to 0 when
+ˆ
+y
+(test)
+=
+y
+(test).
+We can also see that
+
+    insert function
+
+so the error increases whenever the Euclidean distance between the predictions
+and the targets increases.
+To make a machine learning algorithm, we need to design an algorithm that
+will improve the weights
+w
+in a way that reduces
+MSE
+test
+when the algorithm
+is allowed to gain experience by observing a training set (
+X
+(train)
+, y
+(train)
+). One
+intuitive way of doing this (which we justify later, in section 5.5.1) is just to
+minimize the mean squared error on the training set, MSE
+train
+.
+To minimize MSE
+train
+, we can simply solve for where its gradient is 0:
+
+    insert function
+
+The system of equations whose solution is given by equation 5.12 is known as
+the
+normal equations
+. Evaluating equation 5.12 constitutes a simple learning
+algorithm. For an example of the linear regression learning algorithm in action,
+see ﬁgure 5.1.
+It is worth noting that the term
+linear regression
+is often used to refer to
+a slightly more sophisticated model with one additional parameter—an intercept
+term b. In this model
+
+    insert function
+
+so the mapping from parameters to predictions is still a linear function but the
+mapping from features to predictions is now an aﬃne function. This extension to
+
+    insert image
+
+Figure 5.1: A linear regression problem, with a training set consisting of ten data points,
+each containing one feature. Because there is only one feature, the weight vector
+w
+contains only a single parameter to learn,
+w
+1
+. (Left)Observe that linear regression learns
+to set
+w
+1
+such that the line
+y
+=
+w
+1
+x
+comes as close as possible to passing through all the
+training points. (Right)The plotted point indicates the value of
+w
+1
+found by the normal
+equations, which we can see minimizes the mean squared error on the training set.
+
+aﬃne functions means that the plot of the model’s predictions still looks like a
+line, but it need not pass through the origin. Instead of adding the bias parameter
+b
+, one can continue to use the model with only weights but augment
+x
+with an
+extra entry that is always set to 1. The weight corresponding to the extra 1 entry
+plays the role of the bias parameter. We frequently use the term “linear” when
+referring to aﬃne functions throughout this book.
+The intercept term
+b
+is often called the
+bias
+parameter of the aﬃne transfor-
+mation. This terminology derives from the point of view that the output of the
+transformation is biased toward being
+b
+in the absence of any input. This term
+is diﬀerent from the idea of a statistical bias, in which a statistical estimation
+algorithm’s expected estimate of a quantity is not equal to the true quantity.
+Linear regression is of course an extremely simple and limited learning algorithm,
+but it provides an example of how a learning algorithm can work. In subsequent
+sections we describe some of the basic principles underlying learning algorithm
+design and demonstrate how these principles can be used to build more complicated
+learning algorithms.
+
+5.2 Capacity, Overﬁtting and Underﬁtting
+The central challenge in machine learning is that our algorithm must perform
+well on new, previously unseen inputs—not just those on which our model was
+trained. The ability to perform well on previously unobserved inputs is called
+generalization.
+Typically, when training a machine learning model, we have access to a training
+set; we can compute some error measure on the training set, called the
+training
+error
+; and we reduce this training error. So far, what we have described is simply
+an optimization problem. What separates machine learning from optimization is
+that we want the
+generalization error
+, also called the
+test error
+, to be low as
+well. The generalization error is deﬁned as the expected value of the error on a
+new input. Here the expectation is taken across diﬀerent possible inputs, drawn
+from the distribution of inputs we expect the system to encounter in practice.
+We typically estimate the generalization error of a machine learning model by
+measuring its performance on a
+test set
+of examples that were collected separately
+from the training set.
+In our linear regression example, we trained the model by minimizing the
+training error,
+
+    insert function
+
+but we actually care about the test error,
+1
+m
+(test)
+||X
+(test)
+w − y
+(test)
+||
+2
+2
+.
+How can we aﬀect performance on the test set when we can observe only the
+training set? The ﬁeld of
+statistical learning theory
+provides some answers. If
+the training and the test set are collected arbitrarily, there is indeed little we can
+do. If we are allowed to make some assumptions about how the training and test
+set are collected, then we can make some progress.
+The training and test data are generated by a probability distribution over
+datasets called the
+data-generating process
+. We typically make a set of as-
+sumptions known collectively as the
+i.i.d. assumptions
+. These assumptions are
+that the examples in each dataset are
+independent
+from each other, and that
+the training set and test set are
+identically distributed
+, drawn from the same
+probability distribution as each other. This assumption enables us to describe
+the data-generating process with a probability distribution over a single example.
+The same distribution is then used to generate every train example and every test
+example. We call that shared underlying distribution the
+data-generating dis-
+tribution
+, denoted
+p
+data
+. This probabilistic framework and the i.i.d. assumptions
+enables us to mathematically study the relationship between training error and
+test error.
+
+One immediate connection we can observe between training error and test error
+is that the expected training error of a randomly selected model is equal to the
+expected test error of that model. Suppose we have a probability distribution
+p
+(
+x, y
+) and we sample from it repeatedly to generate the training set and the test
+set. For some ﬁxed value
+w
+, the expected training set error is exactly the same as
+the expected test set error, because both expectations are formed using the same
+dataset sampling process. The only diﬀerence between the two conditions is the
+name we assign to the dataset we sample.
+Of course, when we use a machine learning algorithm, we do not ﬁx the
+parameters ahead of time, then sample both datasets. We sample the training set,
+then use it to choose the parameters to reduce training set error, then sample the
+test set. Under this process, the expected test error is greater than or equal to
+the expected value of training error. The factors determining how well a machine
+learning algorithm will perform are its ability to
+
+Make the training error small.
+2. Make the gap between training and test error small.
+These two factors correspond to the two central challenges in machine learning:
+underﬁtting
+and
+overﬁtting
+. Underﬁtting occurs when the model is not able to
+
+obtain a suﬃciently low error value on the training set. Overﬁtting occurs when
+the gap between the training error and test error is too large.
+We can control whether a model is more likely to overﬁt or underﬁt by altering
+its
+capacity
+. Informally, a model’s capacity is its ability to ﬁt a wide variety of
+functions. Models with low capacity may struggle to ﬁt the training set. Models
+with high capacity can overﬁt by memorizing properties of the training set that do
+not serve them well on the test set.
+One way to control the capacity of a learning algorithm is by choosing its
+hypothesis space, the set of functions that the learning algorithm is allowed to
+select as being the solution. For example, the linear regression algorithm has the
+set of all linear functions of its input as its hypothesis space. We can generalize
+linear regression to include polynomials, rather than just linear functions, in its
+hypothesis space. Doing so increases the model’s capacity.
+A polynomial of degree 1 gives us the linear regression model with which we
+are already familiar, with the prediction
+
+    insert function
+
+By introducing x2 as another feature provided to the linear regression model, we can learn a model that is quadratic as a function of x:
+
+    insert function
+
+Though this model implements a quadratic function of its input, the output is still a linear function of the parameters, so we can still use the normal equations to train the model in closed form.
+We can continue to add more powers of x as additional features, for example, to obtain a polynomial of degree 9:
+
+    insert function
+
+Machine learning algorithms will generally perform best when their capacity
+is appropriate for the true complexity of the task they need to perform and the
+amount of training data they are provided with. Models with insuﬃcient capacity
+are unable to solve complex tasks. Models with high capacity can solve complex
+tasks, but when their capacity is higher than needed to solve the present task, they
+may overﬁt.
+
+Figure 5.2 shows this principle in action. We compare a linear, quadratic
+and degree-9 predictor attempting to ﬁt a problem where the true underlying
+
+Figure 5.2: We ﬁt three models to this example training set. The training data was
+generated synthetically, by randomly sampling
+x
+values and choosing
+y
+deterministically
+by evaluating a quadratic function. (Left)A linear function ﬁt to the data suﬀers from
+underﬁtting—it cannot capture the curvature that is present in the data. (Center)A
+quadratic function ﬁt to the data generalizes well to unseen points. It does not suﬀer from
+a signiﬁcant amount of overﬁtting or underﬁtting. (Right)A polynomial of degree 9 ﬁt
+to the data suﬀers from overﬁtting. Here we used the Moore-Penrose pseudoinverse to
+solve the underdetermined normal equations. The solution passes through all the training
+points exactly, but we have not been lucky enough for it to extract the correct structure.
+It now has a deep valley between two training points that does not appear in the true
+underlying function. It also increases sharply on the left side of the data, while the true
+function decreases in this area.
+function is quadratic. The linear function is unable to capture the curvature in
+the true underlying problem, so it underﬁts. The degree-9 predictor is capable of
+representing the correct function, but it is also capable of representing inﬁnitely
+many other functions that pass exactly through the training points, because we
+have more parameters than training examples. We have little chance of choosing
+a solution that generalizes well when so many wildly diﬀerent solutions exist. In
+this example, the quadratic model is perfectly matched to the true structure of
+the task, so it generalizes well to new data.
+
+So far we have described only one way of changing a model’s capacity: by
+changing the number of input features it has, and simultaneously adding new
+parameters associated with those features. There are in fact many ways to change
+a model’s capacity. Capacity is not determined only by the choice of model. The
+model speciﬁes which family of functions the learning algorithm can choose from
+when varying the parameters in order to reduce a training objective. This is called
+the
+representational capacity
+of the model. In many cases, ﬁnding the best
+
+function within this family is a diﬃcult optimization problem. In practice, the
+learning algorithm does not actually ﬁnd the best function, but merely one that
+signiﬁcantly reduces the training error. These additional limitations, such as the
+imperfection of the optimization algorithm, mean that the learning algorithm’s
+eﬀective capacity
+may be less than the representational capacity of the model
+family.
+Our modern ideas about improving the generalization of machine learning
+models are reﬁnements of thought dating back to philosophers at least as early as
+Ptolemy. Many early scholars invoke a principle of parsimony that is now most
+widely known as
+Occam’s razor
+(c. 1287–1347). This principle states that among
+competing hypotheses that explain known observations equally well, we should
+choose the “simplest” one. This idea was formalized and made more precise in
+the twentieth century by the founders of statistical learning theory (Vapnik and
+Chervonenkis, 1971; Vapnik, 1982; Blumer et al., 1989; Vapnik, 1995).
+Statistical learning theory provides various means of quantifying model capacity.
+Among these, the most well known is the
+Vapnik-Chervonenkis dimension
+, or
+VC dimension. The VC dimension measures the capacity of a binary classiﬁer. The
+VC dimension is deﬁned as being the largest possible value of
+m
+for which there
+exists a training set of
+m
+diﬀerent
+x
+points that the classiﬁer can label arbitrarily.
+Quantifying the capacity of the model enables statistical learning theory to
+make quantitative predictions. The most important results in statistical learning
+theory show that the discrepancy between training error and generalization error
+is bounded from above by a quantity that grows as the model capacity grows but
+shrinks as the number of training examples increases (Vapnik and Chervonenkis,
+1971; Vapnik, 1982; Blumer et al., 1989; Vapnik, 1995). These bounds provide
+intellectual justiﬁcation that machine learning algorithms can work, but they are
+rarely used in practice when working with deep learning algorithms. This is in
+part because the bounds are often quite loose and in part because it can be quite
+diﬃcult to determine the capacity of deep learning algorithms. The problem of
+determining the capacity of a deep learning model is especially diﬃcult because
+the eﬀective capacity is limited by the capabilities of the optimization algorithm,
+and we have little theoretical understanding of the general nonconvex optimization
+problems involved in deep learning.
+
+We must remember that while simpler functions are more likely to generalize
+(to have a small gap between training and test error), we must still choose a
+suﬃciently complex hypothesis to achieve low training error. Typically, training
+error decreases until it asymptotes to the minimum possible error value as model
+capacity increases (assuming the error measure has a minimum value). Typically,
+
+Figure 5.3: Typical relationship between capacity and error. Training and test error
+behave diﬀerently. At the left end of the graph, training error and generalization error
+are both high. This is the
+underﬁtting regime
+. As we increase capacity, training error
+decreases, but the gap between training and generalization error increases. Eventually,
+the size of this gap outweighs the decrease in training error, and we enter the
+overﬁtting
+regime, where capacity is too large, above the optimal capacity.
+
+generalization error has a U-shaped curve as a function of model capacity. This is
+illustrated in ﬁgure 5.3.
+To reach the most extreme case of arbitrarily high capacity, we introduce
+the concept of
+nonparametric models
+. So far, we have seen only parametric
+models, such as linear regression. Parametric models learn a function described
+by a parameter vector whose size is ﬁnite and ﬁxed before any data is observed.
+Nonparametric models have no such limitation.
+Sometimes, nonparametric models are just theoretical abstractions (such as
+an algorithm that searches over all possible probability distributions) that cannot
+be implemented in practice. However, we can also design practical nonparametric
+models by making their complexity a function of the training set size. One example
+of such an algorithm is
+nearest neighbor regression
+. Unlike linear regression,
+which has a ﬁxed-length vector of weights, the nearest neighbor regression model
+simply stores the
+X
+and
+y
+from the training set. When asked to classify a test
+point
+x
+, the model looks up the nearest entry in the training set and returns the
+associated regression target. In other words,
+ˆy
+=
+y
+i
+where
+i
+=
+arg min ||X
+i,:
+−x||
+2
+2
+.
+The algorithm can also be generalized to distance metrics other than the
+L
+2
+norm,
+such as learned distance metrics (Goldberger et al., 2005). If the algorithm is
+allowed to break ties by averaging the
+y
+i
+values for all
+X
+i,:
+that are tied for nearest,
+then this algorithm is able to achieve the minimum possible training error (which
+might be greater than zero, if two identical inputs are associated with diﬀerent
+outputs) on any regression dataset.
+Finally, we can also create a nonparametric learning algorithm by wrapping a
+parametric learning algorithm inside another algorithm that increases the number
+of parameters as needed. For example, we could imagine an outer loop of learning
+that changes the degree of the polynomial learned by linear regression on top of a
+polynomial expansion of the input.
+The ideal model is an oracle that simply knows the true probability distribution
+that generates the data. Even such a model will still incur some error on many
+problems, because there may still be some noise in the distribution. In the case
+of supervised learning, the mapping from
+x
+to
+y
+may be inherently stochastic,
+or
+y
+may be a deterministic function that involves other variables besides those
+included in
+x
+. The error incurred by an oracle making predictions from the true
+distribution p(x, y) is called the Bayes error.
+Training and generalization error vary as the size of the training set varies.
+Expected generalization error can never increase as the number of training examples
+increases. For nonparametric models, more data yield better generalization until
+the best possible error is achieved. Any ﬁxed parametric model with less than
+optimal capacity will asymptote to an error value that exceeds the Bayes error.
+See ﬁgure 5.4 for an illustration. Note that it is possible for the model to have
+optimal capacity and yet still have a large gap between training and generalization
+errors. In this situation, we may be able to reduce this gap by gathering more
+training examples.
+5.2.1 The No Free Lunch Theorem
+Learning theory claims that a machine learning algorithm can generalize well from
+a ﬁnite training set of examples. This seems to contradict some basic principles of
+logic. Inductive reasoning, or inferring general rules from a limited set of examples,
+is not logically valid. To logically infer a rule describing every member of a set,
+one must have information about every member of that set.
+In part, machine learning avoids this problem by oﬀering only probabilistic rules,
+rather than the entirely certain rules used in purely logical reasoning. Machine
+learning promises to ﬁnd rules that are probably correct about most members of
+the set they concern.
+Unfortunately, even this does not resolve the entire problem. The
+no free
+lunch theorem
+for machine learning (Wolpert, 1996) states that, averaged over
+all possible data-generating distributions, every classiﬁcation algorithm has the
+
+Figure 5.4: The eﬀect of the training dataset size on the train and test error, as well as
+on the optimal model capacity. We constructed a synthetic regression problem based on
+adding a moderate amount of noise to a degree-5 polynomial, generated a single test set,
+and then generated several diﬀerent sizes of training set. For each size, we generated 40
+diﬀerent training sets in order to plot error bars showing 95 percent conﬁdence intervals.
+(Top)The MSE on the training and test set for two diﬀerent models: a quadratic model,
+and a model with degree chosen to minimize the test error. Both are ﬁt in closed form. For
+the quadratic model, the training error increases as the size of the training set increases.
+This is because larger datasets are harder to ﬁt. Simultaneously, the test error decreases,
+because fewer incorrect hypotheses are consistent with the training data. The quadratic
+model does not have enough capacity to solve the task, so its test error asymptotes to
+a high value. The test error at optimal capacity asymptotes to the Bayes error. The
+training error can fall below the Bayes error, due to the ability of the training algorithm
+to memorize speciﬁc instances of the training set. As the training size increases to inﬁnity,
+the training error of any ﬁxed-capacity model (here, the quadratic model) must rise to at
+least the Bayes error. (Bottom)As the training set size increases, the optimal capacity
+(shown here as the degree of the optimal polynomial regressor) increases. The optimal
+capacity plateaus after reaching suﬃcient complexity to solve the task.
+
+same error rate when classifying previously unobserved points. In other words,
+in some sense, no machine learning algorithm is universally any better than any
+other. The most sophisticated algorithm we can conceive of has the same average
+performance (over all possible tasks) as merely predicting that every point belongs
+to the same class.
+Fortunately, these results hold only when we average over all possible data-
+generating distributions. If we make assumptions about the kinds of probability
+distributions we encounter in real-world applications, then we can design learning
+algorithms that perform well on these distributions.
+This means that the goal of machine learning research is not to seek a universal
+learning algorithm or the absolute best learning algorithm. Instead, our goal is to
+understand what kinds of distributions are relevant to the “real world” that an AI
+agent experiences, and what kinds of machine learning algorithms perform well on
+data drawn from the kinds of data-generating distributions we care about.
+5.2.2 Regularization
+The no free lunch theorem implies that we must design our machine learning
+algorithms to perform well on a speciﬁc task. We do so by building a set of
+preferences into the learning algorithm. When these preferences are aligned with
+the learning problems that we ask the algorithm to solve, it performs better.
+So far, the only method of modifying a learning algorithm that we have discussed
+concretely is to increase or decrease the model’s representational capacity by adding
+or removing functions from the hypothesis space of solutions the learning algorithm
+is able to choose from.
+We gave the speciﬁc example of increasing or decreasing the degree of a polynomial for a regression problem.
+The view we have described so far is oversimpliﬁed.
+The behavior of our algorithm is strongly aﬀected not just by how large we make the set of functions allowed in its hypothesis space, but by the speciﬁc identity of those functions.
+The learning algorithm we have studied so far, linear regression, has a hypothesis space consisting of the set of linear functions of its input.
+These linear functions can be useful for problems where the relationship between inputs and outputs truly is close to linear.
+They are less useful for problems that behave in a very nonlinear fashion.
+For example, linear regression would not perform well if we tried to use it to predict sin(x) from x.
+We can thus control the performance of our algorithms by choosing what kind of functions we allow them to draw solutions from, as well as by controlling the amount of these functions.
+We can also give a learning algorithm a preference for one solution over another in its hypothesis space.
+This means that both functions are eligible, but one is preferred.
+The unpreferred solution will be chosen only if it ﬁts the training data signiﬁcantly better than the preferred solution.
+For example, we can modify the training criterion for linear regression to include weight decay.
+To perform linear regression with weight decay, we minimize a sum J(w) comprising both the mean squared error on the training and a criterion that expresses a preference for the weights to have smaller squared L 2 norm.
+Speciﬁcally,J(w) = MSE train + λw  w, (5.18) where λ is a value chosen ahead of time that controls the strength of our preference for smaller weights.
+When λ= 0, we impose no preference, and larger λ forces the weights to become smaller.
+Minimizing J(w) results in a choice of weights that make a tradeoﬀ between ﬁtting the training data and being small.
+This gives us solutions that have a smaller slope, or that put weight on fewer of the features.
+As an example of how we can control a model’s tendency to overﬁt or underﬁt via weight decay, we can train a high-degree polynomial regression model with diﬀerent values of λ.
+
+See ﬁgure 5.5 for the results.
+
+More generally, we can regularize a model that learns a function f(x ; θ) by adding a penalty called a regularizer to the cost function.
+In the case of weight decay, the regularizer is Ω(w) =w  w.
+In chapter 7, we will see that many other regularizers are possible.
+Expressing preferences for one function over another is a more general way of controlling a model’s capacity than including or excluding members from the hypothesis space.
+We can think of excluding a function from a hypothesis space as expressing an inﬁnitely strong preference against that function.
+In our weight decay example, we expressed our preference for linear functions deﬁned with smaller weights explicitly, via an extra term in the criterion we minimize.
+There are many other ways of expressing preferences for diﬀerent solutions, both implicitly and explicitly.
+Together, these diﬀerent approaches are known as regularization.
+Regularization is any modiﬁcation we make to a learning algorithm that is intended to reduce its generalization error but not its training error.
+Regularization is one of the central concerns of the ﬁeld of machine learning, rivaled in its importance only by optimization.
+The no free lunch theorem has made it clear that there is no best machine learning algorithm, and, in particular, no best form of regularization.
+Instead we must choose a form of regularization that is well suited to the particular task we want to solve.
+The philosophy of deep learning in general and this book in particular is that a wide range of tasks (such as all the intellectual tasks that people can do) may all be solved eﬀectively using very general-purpose forms of regularization.
+
+5.3 Hyperparameters and Validation Sets
+Most machine learning algorithms have hyperparameters, settings that we can use to control the algorithm’s behavior.
+The values of hyperparameters are not adapted by the learning algorithm itself (though we can design a nested learning procedure in which one learning algorithm learns the best hyperparameters for another learning algorithm).
+
+The polynomial regression example in ﬁgure 5.2 has a single hyperparameter: the degree of the polynomial, which acts as a capacity hyperparameter.
+The λ value used to control the strength of weight decay is another example of a hyperparameter.
+
+Figure 5.5: We ﬁt a high-degree polynomial regression model to our example training set
+from ﬁgure 5.2. The true function is quadratic, but here we use only models with degree 9.
+We vary the amount of weight decay to prevent these high-degree models from overﬁtting.
+(Left)With very large λ, we can force the model to learn a function with no slope at all.
+This underﬁts because it can only represent a constant function.
+(Center)With a medium value of λ, the learning algorithm recovers a curve with the right general shape.
+Even though the model is capable of representing functions with much more complicated shapes, weight decay has encouraged it to use a simpler function described by smaller coeﬃcients. (Right)
+With weight decay approaching zero (i.e., using the Moore-Penrose pseudoinverse to solve the underdetermined problem with minimal regularization), the degree-9 polynomial overﬁts signiﬁcantly, as we saw in ﬁgure 5.2.
+
+Sometimes a setting is chosen to be a hyperparameter that the learning algorithm does not learn because the setting is diﬃcult to optimize.
+More frequently, the setting must be a hyperparameter because it is not appropriate to learn that hyperparameter on the training set.
+This applies to all hyperparameters that
+control model capacity.
+If learned on the training set, such hyperparameters would
+always choose the maximum possible model capacity, resulting in overﬁtting (
+refer
+to ﬁgure 5.3).
+For example, we can always ﬁt the training set better with a
+higher-degree polynomial and a weight decay setting of
+λ
+= 0 than we could with
+a lower-degree polynomial and a positive weight decay setting.
+To solve this problem, we need a
+validation set
+of examples that the training
+algorithm does not observe.
+Earlier we discussed how a held-out test set, composed of examples coming from
+the same distribution as the training set, can be used to estimate the generalization
+error of a learner, after the learning process has completed.
+It is important that the
+test examples are not used in any way to make choices about the model, including
+its hyperparameters.
+For this reason, no example from the test set can be used in the validation set.
+Therefore, we always construct the validation set from the training data.
+Speciﬁcally, we split the training data into two disjoint subsets.
+One of these subsets is used to learn the parameters.
+The other subset is our validation set, used to estimate the generalization error during or after training, allowing for the hyperparameters to be updated accordingly.
+The subset of data used to learn the parameters is still typically called the training set, even though this may be confused with the larger pool of data used for the entire training process.
+The subset of data used to guide the selection of hyperparameters is called the validation set.
+Typically, one uses about 80 percent of the training data for training and 20 percent for validation.
+Since the validation set is used to “train” the hyperparameters, the validation set error will underestimate the generalization error, though typically by a smaller amount than the training error does.
+After all hyperparameter optimization is complete, the generalization error may be estimated using the test set.
+In practice, when the same test set has been used repeatedly to evaluate performance of diﬀerent algorithms over many years, and especially if we consider all the attempts from the scientiﬁc community at beating the reported state-of-the-art performance on that test set, we end up having optimistic evaluations with the test set as well.
+Benchmarks can thus become stale and then do not reﬂect the true ﬁeld performance of a trained system.
+Thankfully, the community tends to move on to new (and usually more ambitious and larger) benchmark datasets.
+
+5.3.1 Cross-Validation
+Dividing the dataset into a ﬁxed training set and a ﬁxed test set can be problematic
+if it results in the test set being small.
+A small test set implies statistical uncertainty
+around the estimated average test error, making it diﬃcult to claim that algorithm
+A works better than algorithm B on the given task.
+When the dataset has hundreds of thousands of examples or more, this is not
+a serious issue.
+When the dataset is too small, alternative procedures enable one
+to use all the examples in the estimation of the mean test error, at the price of
+increased computational cost. These procedures are based on the idea of repeating
+the training and testing computation on diﬀerent randomly chosen subsets or splits
+of the original dataset. The most common of these is the
+k
+-fold cross-validation
+procedure, shown in algorithm 5.1, in which a partition of the dataset is formed by
+splitting it into
+k
+nonoverlapping subsets. The test error may then be estimated
+by taking the average test error across
+k
+trials. On trial
+i
+, the
+i
+-th subset of the
+data is used as the test set, and the rest of the data is used as the training set.
+One problem is that no unbiased estimators of the variance of such average error
+estimators exist (Bengio and Grandvalet, 2004), but approximations are typically
+used.
+5.4 Estimators, Bias and Variance
+The ﬁeld of statistics gives us many tools to achieve the machine learning goal of
+solving a task not only on the training set but also to generalize.
+Foundational
+concepts such as parameter estimation, bias and variance are useful to formally
+characterize notions of generalization, underﬁtting and overﬁtting.
+5.4.1 Point Estimation
+Point estimation is the attempt to provide the single “best” prediction of some
+quantity of interest.
+In general the quantity of interest can be a single parameter
+or a vector of parameters in some parametric model, such as the weights in our
+linear regression example in section 5.1.4, but it can also be a whole function.
+To distinguish estimates of parameters from their true value, our convention
+will be to denote a point estimate of a parameter θ by
+ˆ
+θ.
+
+Let{x(1), . . . , x(m)}be a set of m independent and identically distributed
+
+Algorithm 5.1
+The k-fold cross-validation algorithm.
+It can be used to estimate generalization error of a learning algorithm A when the given dataset D is too small for a simple train/test or train/valid split to yield accurate estimation of generalization error, because the mean of a loss L on a small test set may have too high a variance.
+The dataset D contains as elements the abstract examples z(i)(for the i-th example), which could stand for an (input,target) pair z(i)= (x(i), y(i))in the case of supervised learning, or for just an input
+z(i)= x(i)in the case of unsupervised learning.
+The algorithm returns the vector of errors e for each example in D, whose mean is the estimated generalization error.
+The errors on individual examples can be used to compute a conﬁdence interval around the mean (equation 5.47).
+
+Though these conﬁdence intervals are not well justiﬁed after the use of cross-validation, it is still common practice to use them to declare
+that algorithm A is better than algorithm B only if the conﬁdence interval of the error of algorithm
+A lies below and does not intersect the conﬁdence interval of algorithm B.
+
+Deﬁne KFoldXV(D, A, L, k):
+Require: D, the given dataset, with elements z(i)
+Require: A, the learning algorithm, seen as a function that takes a dataset as input and outputs a learned function
+Require: L, the loss function, seen as a function from a learned function f and an example z(i)∈ D to a scalar ∈ R
+Require: k, the number of folds Split D into k mutually exclusive subsets D i, whose union is D for i from 1 to k do f i= A(D\Di)for z(j) in D i do e j= L(f i, z(j))end for end for Return e(i.i.d.) data points.
+A point estimator or statistic is any function of the data:
+ˆ θ m= g(x(1), . . . , x(m)). (5.19)
+
+The deﬁnition does not require that g return a value that is close to the true θ or even that the range of
+g be the same as the set of allowable values of θ .
+This deﬁnition of a point estimator is very general and would enable the designer of an estimator great ﬂexibility.
+While almost any function thus qualiﬁes as an estimator, a good estimator is a function whose output is close to the true underlying θ that generated the training data.
+For now, we take the frequentist perspective on statistics.
+That is, we assume that the true parameter value θ is ﬁxed but unknown, while the point estimate ˆ θ is a function of the data.
+Since the data is drawn from a random process, any function of the data is random.
+Therefore ˆ θ is a random variable.
+Point estimation can also refer to the estimation of the relationship between input and target variables.
+We refer to these types of point estimates as function estimators.
+
+Function Estimation
+Sometimes we are interested in performing function estimation (or function approximation).
+Here, we are trying to predict a variable y given an input vector x.
+We assume that there is a function f(x) that describes the approximate relationship between y and x .
+For example, we may assume that y=f(x) + , where  stands for the part of y that is not predictable from x.
+In function estimation, we are interested in approximating f with a model or estimate ˆ f .
+Function estimation is really just the same as estimating a parameter θ; the function estimator ˆ f is simply a point estimator in function space.
+The linear regression example (discussed in section 5.1.4) and the polynomial regression example (discussed in section 5.2) both illustrate scenarios that may be interpreted as either estimating a parameter w or estimating a function ˆ f mapping from x to y.
+We now review the most commonly studied properties of point estimators and discuss what they tell us about these estimators.
+
+5.4.2 Bias
+The bias of an estimator is deﬁned as bias(ˆ θ m) = E(ˆ θ m) − θ, (5.20)
+
+where the expectation is over the data (seen as samples from a random variable)and θ is the true underlying value of θ used to deﬁne the data-generating distribution.
+An estimator ˆ θ m is said to be unbiased if bias(ˆ θ m) =0, which implies that E(ˆ θ m) =θ.
+An estimator ˆ θ m is said to be asymptotically unbiased if lim m→∞ bias(ˆ θ m) = 0, which implies that lim m→∞ E(ˆ θ m) = θ.
+
+Example: Bernoulli Distribution
+Consider a set of samples{x(1), . . . , x(m)}that are independently and identically distributed according to a Bernoulli distri-
+
+Example: Gaussian Distribution Estimator of the Mean
+Now, consider a set of samples {x(1), . . . , x(m)} that are independently and identically distributed according to a Gaussian distribution p(x(i)) =N(x(i); µ, σ2), where i ∈ {1, . . . , m}.
+Recall that the Gaussian probability density function is given by
+
+    insert function
+
+Thus we ﬁnd that the sample mean is an unbiased estimator of Gaussian mean parameter.
+
+Example: Estimators of the Variance of a Gaussian Distribution
+For this example, we compare two diﬀerent estimators of the variance parameter σ2 of a Gaussian distribution.
+We are interested in knowing if either estimator is biased.
+The ﬁrst estimator of σ2 we consider is known as the sample variance
+
+We have two estimators: one is biased, and the other is not.
+While unbiased estimators are clearly desirable, they are not always the “best” estimators.
+As we will see we often use biased estimators that possess other important properties.
+
+5.4.3 Variance and Standard Error
+Another property of the estimator that we might want to consider is how much we expect it to vary as a function of the data sample.
+Just as we computed the expectation of the estimator to determine its bias, we can compute its variance.
+The variance of an estimator is simply the variance where the random variable is the training set.
+Alternately, the square root of the variance is called the standard error, denoted SE(ˆ θ).
+The variance, or the standard error, of an estimator provides a measure of how
+we would expect the estimate we compute from data to vary as we independently
+resample the dataset from the underlying data-generating process.
+Just as we might like an estimator to exhibit low bias, we would also like it to have relatively low variance.
+When we compute any statistic using a ﬁnite number of samples, our estimate
+of the true underlying parameter is uncertain, in the sense that we could have
+obtained other samples from the same distribution and their statistics would have
+been diﬀerent.
+The expected degree of variation in any estimator is a source of error that we want to quantify.
+The standard error of the mean is given by
+
+    insert function
+
+where σ2 is the true variance of the samples xi.
+The standard error is often estimated by using an estimate of σ.
+Unfortunately, neither the square root of the sample variance nor the square root of the unbiased estimator of the variance provide an unbiased estimate of the standard deviation.
+Both approaches tend to underestimate the true standard deviation but are still used in practice.
+The square root of the unbiased estimator of the variance is less of an underestimate.
+For large m, the approximation is quite reasonable.
+The standard error of the mean is very useful in machine learning experiments.
+We often estimate the generalization error by computing the sample mean of the error on the test set.
+The number of examples in the test set determines the accuracy of this estimate.
+Taking advantage of the central limit theorem, which tells us that the mean will be approximately distributed with a normal distribution,we can use the standard error to compute the probability that the true expectation falls in any chosen interval.
+For example, the 95 percent conﬁdence interval centered on the mean ˆµ m is
+
+    insert function
+
+under the normal distribution with mean ˆµ m and variance SE(ˆµ m)2.
+In machine learning experiments, it is common to say that algorithm A is better than algorithm B if the upper bound of the 95 percent conﬁdence interval for the error of algorithm A is less than the lower bound of the 95 percent conﬁdence interval for the error of algorithm B.
+
+Example: Bernoulli Distribution
+We once again consider a set of samples {x(1), . . . , x(m)}drawn independently and identically from a Bernoulli distribution
+(recall P(x(i); θ) =θ x(i)(1 − θ)(1−x(i))).
+This time we are interested in computing the variance of the estimator ˆ θ m = 1 m  m i=1 x(i).
+
+The variance of the estimator decreases as a function of m, the number of examples in the dataset.
+This is a common property of popular estimators that we will return to when we discuss consistency (see section 5.4.5).
+
+5.4.4 Trading oﬀ Bias and Variance to Minimize Mean Squared Error
+Bias and variance measure two diﬀerent sources of error in an estimator.
+Bias measures the expected deviation from the true value of the function or parameter.
+Variance on the other hand, provides a measure of the deviation from the expected estimator value that any particular sampling of the data is likely to cause.
+What happens when we are given a choice between two estimators, one with more bias and one with more variance?
+How do we choose between them?
+For example, imagine that we are interested in approximating the function shown in ﬁgure 5.2 and we are only oﬀered the choice between a model with large bias and one that suﬀers from large variance.
+How do we choose between them?
+The most common way to negotiate this trade-oﬀ is to use cross-validation.
+Empirically, cross-validation is highly successful on many real-world tasks.
+Alternatively, we can also compare the mean squared error(MSE) of the estimates:
+The MSE measures the overall expected deviation—in a squared error sense—
+between the estimator and the true value of the parameter θ.
+As is clear from equation 5.54, evaluating the MSE incorporates both the bias and the variance.
+Desirable estimators are those with small MSE and these are estimators that manage to keep both their bias and variance somewhat in check.
+The relationship between bias and variance is tightly linked to the machine learning concepts of capacity, underﬁtting and overﬁtting.
+When generalization
+
+Figure 5.6: As capacity increases (x-axis), bias (dotted) tends to decrease and variance (dashed) tends to increase, yielding another U-shaped curve for generalization error (bold curve).
+If we vary capacity along one axis, there is an optimal capacity, with underﬁtting when the capacity is below this optimum and overﬁtting when it is above.
+This relationship is similar to the relationship between capacity, underﬁtting, and overﬁtting, discussed in section 5.2 and ﬁgure 5.3.
+error is measured by the MSE (where bias and variance are meaningful components of generalization error), increasing capacity tends to increase variance and decrease bias.
+This is illustrated in ﬁgure 5.6, where we see again the U-shaped curve of
+generalization error as a function of capacity.
+
+5.4.5 Consistency
+So far we have discussed the properties of various estimators for a training set of ﬁxed size.
+Usually, we are also concerned with the behavior of an estimator as the amount of training data grows.
+In particular, we usually wish that, as the number of data points m in our dataset increases, our point estimates converge to the true value of the corresponding parameters.
+More formally, we would like that plim m→∞ ˆ θ m= θ. (5.55)
+The symbol plim indicates convergence in probability, meaning that for any  >0,P(|ˆ θ m − θ| > )→ 0 as m → ∞ .
+The condition described by equation 5.55 is known as consistency.
+It is sometimes referred to as weak consistency, with strong consistency referring to the almost sure convergence of ˆ θ to θ.
+Almost sure convergence of a sequence of random variables x(1), x(2), . . . to a value x occurs when p(lim m→∞ x(m)= x) = 1.
+Consistency ensures that the bias induced by the estimator diminishes as the number of data examples grows.
+However, the reverse is not true—asymptotic unbiasedness does not imply consistency.
+For example, consider estimating the mean parameter µ of a normal distribution N(x ; µ, σ2), with a dataset consisting of m samples: {x(1), . . . , x(m)}.
+We could use the ﬁrst sample x(1)of the dataset as an unbiased estimator: ˆ θ=x(1).
+In that case, E(ˆ θ m) =θ, so the estimator is unbiased no matter how many data points are seen.
+This, of course, implies that the estimate is asymptotically unbiased.
+However, this is not a consistent estimator as it is not the case that ˆ θ m → θ as m → ∞.
+
+5.5 Maximum Likelihood Estimation
+We have seen some deﬁnitions of common estimators and analyzed their properties.
+But where did these estimators come from?
+Rather than guessing that some function might make a good estimator and then analyzing its bias and variance, we would like to have some principle from which we can derive speciﬁc functions that are good estimators for diﬀerent models.
+The most common such principle is the maximum likelihood principle.
+Consider a set of m examples X={x(1), . . . , x(m)} drawn independently from the true but unknown data-generating distribution p data (x).
+Let p model (x ; θ) be a parametric family of probability distributions over the same space indexed by θ.
+In other words, p model(x ; θ) maps any conﬁguration x to a real number estimating the true probability p data (x).
+The maximum likelihood estimator for θ is then deﬁned as
+
+This product over many probabilities can be inconvenient for various reasons.
+For example, it is prone to numerical underﬂow.
+To obtain a more convenient but equivalent optimization problem, we observe that taking the logarithm of the likelihood does not change its arg max but does conveniently transform a product into a sum:
+
+    insert function
+
+Because the arg max does not change when we rescale the cost function, we can divide by m to obtain a version of the criterion that is expressed as an expectation with respect to the empirical distribution ˆp data deﬁned by the training data:
+
+    insert function
+
+One way to interpret maximum likelihood estimation is to view it as minimizing the dissimilarity between the empirical distribution ˆp data, deﬁned by the training set and the model distribution, with the degree of dissimilarity between the two measured by the KL divergence.
+
+The KL divergence is given by
+
+The term on the left is a function only of the data-generating process, not the model.
+This means when we train the model to minimize the KL divergence, we need only minimize which is of course the same as the maximization in equation 5.59.
+Minimizing this KL divergence corresponds exactly to minimizing the cross-entropy between the distributions.
+Many authors use the term “cross-entropy” to identify speciﬁcally the negative log-likelihood of a Bernoulli or softmax distribution, but that is a misnomer.
+Any loss consisting of a negative log-likelihood is a cross-entropy between the empirical distribution deﬁned by the training set and the probability distribution deﬁned by model.
+For example, mean squared error is the cross-entropy between the empirical distribution and a Gaussian model.
+We can thus see maximum likelihood as an attempt to make the model distribution match the empirical distribution ˆp data.
+Ideally, we would like to match the true data-generating distribution p data, but we have no direct access to this distribution.
+While the optimal θ is the same regardless of whether we are maximizing the likelihood or minimizing the KL divergence, the values of the objective functions are diﬀerent.
+In software, we often phrase both as minimizing a cost function.
+Maximum likelihood thus becomes minimization of the negative log-likelihood
+(NLL), or equivalently, minimization of the cross-entropy. The perspective of
+maximum likelihood as minimum KL divergence becomes helpful in this case
+because the KL divergence has a known minimum value of zero. The negative
+log-likelihood can actually become negative when x is real-valued.
+
+5.5.1 Conditional Log-Likelihood and Mean Squared Error
+The maximum likelihood estimator can readily be generalized to estimate a conditional probability P(y | x ; θ) in order to predict y given x.
+This is actually the most common situation because it forms the basis for most supervised learning.
+If X represents all our inputs and Y all our observed targets, then the conditional maximum likelihood estimator is
+
+If the examples are assumed to be i.i.d., then this can be decomposed into
+
+Example: Linear Regression as Maximum Likelihood
+Linear regression,
+introduced in section 5.1.4, may be justiﬁed as a maximum likelihood procedure.
+Previously, we motivated linear regression as an algorithm that learns to take an input x and produce an output value ˆy.
+The mapping from x to ˆy is chosen to minimize mean squared error, a criterion that we introduced more or less arbitrarily.
+We now revisit linear regression from the point of view of maximum likelihood estimation.
+Instead of producing a single prediction ˆy, we now think of the model as producing a conditional distribution p(y | x).
+We can imagine that with an inﬁnitely large training set, we might see several training examples with the same input value x but diﬀerent values of y.
+The goal of the learning algorithm is now to ﬁt the distribution p(y|x) to all those diﬀerent y values that are all compatible with x.
+To derive the same linear regression algorithm we obtained before, we deﬁne p(y | x) =N(y ; ˆy(x ; w), σ2).
+The function ˆy(x ; w) gives the prediction of the mean of the Gaussian.
+In this example, we assume that the variance is ﬁxed to some constant σ2 chosen by the user.
+We will see that this choice of the functional form of p(y|x) causes the maximum likelihood estimation procedure to yield the
+same learning algorithm as we developed before.
+Since the examples are assumed to be i.i.d., the conditional log-likelihood (equation 5.63) is given by
+
+    insert function
+
+where ˆy(i) is the output of the linear regression on the ith input x(i) and m is the number of the training examples.
+Comparing the log-likelihood with the mean squared error, we immediately see that maximizing the log-likelihood with respect to w yields the same estimate of the parameters w as does minimizing the mean squared error.
+The two criteria have diﬀerent values but the same location of the optimum.
+This justiﬁes the use of the MSE as a maximum likelihood estimation procedure.
+As we will see, the maximum likelihood estimator has several desirable properties.
+
+5.5.2 Properties of Maximum Likelihood
+The main appeal of the maximum likelihood estimator is that it can be shown to
+be the best estimator asymptotically, as the number of examples m → ∞, in terms of its rate of convergence as m increases.
+Under appropriate conditions, the maximum likelihood estimator has the property of consistency (see section 5.4.5), meaning that as the number of training examples approaches inﬁnity, the maximum likelihood estimate of a parameter converges to the true value of the parameter.
+These conditions are as follows:
+• The true distribution p data must lie within the model family p model(· ; θ).
+Otherwise, no estimator can recover p data.
+• The true distribution p data must correspond to exactly one value of θ.
+Otherwise, maximum likelihood can recover the correct p data but will not be able to determine which value of θ was used by the data-generating process.
+There are other inductive principles besides the maximum likelihood estimator, many of which share the property of being consistent estimators.
+Consistent estimators can diﬀer, however, in their statistical eﬃciency, meaning that one consistent estimator may obtain lower generalization error for a ﬁxed number of samples m, or equivalently, may require fewer examples to obtain a ﬁxed level of generalization error.
+Statistical eﬃciency is typically studied in the parametric case (as in linear regression), where our goal is to estimate the value of a parameter (assuming it is possible to identify the true parameter), not the value of a function.
+A way to measure how close we are to the true parameter is by the expected mean squared error, computing the squared diﬀerence between the estimated and true parameter values, where the expectation is over m training samples from the data-generating distribution.
+That parametric mean squared error decreases as m increases, and for m large, the Cramér-Rao lower bound (Rao, 1945; Cramér, 1946) shows that no consistent estimator has a lower MSE than the maximum likelihood estimator.
+For these reasons (consistency and eﬃciency), maximum likelihood is often considered the preferred estimator to use for machine learning.
+When the number of examples is small enough to yield overﬁtting behavior, regularization strategies such as weight decay may be used to obtain a biased version of maximum likelihood that has less variance when training data is limited.
+
+5.6 Bayesian Statistics
+So far we have discussed frequentist statistics and approaches based on estimating a single value of θ, then making all predictions thereafter based on that one estimate.
+Another approach is to consider all possible values of θ when making a prediction.
+The latter is the domain of Bayesian statistics.
+As discussed in section 5.4.1, the frequentist perspective is that the true parameter value θ is ﬁxed but unknown, while the point estimate ˆ θ is a random variable on account of it being a function of the dataset (which is seen as random).
+The Bayesian perspective on statistics is quite diﬀerent.
+The Bayesian uses probability to reﬂect degrees of certainty in states of knowledge.
+The dataset is directly observed and so is not random.
+On the other hand, the true parameter θ is unknown or uncertain and thus is represented as a random variable.
+Before observing the data, we represent our knowledge of θ using the prior probability distribution, p(θ) (sometimes referred to as simply “the prior”).
+Generally, the machine learning practitioner selects a prior distribution that is quite broad (i.e., with high entropy) to reﬂect a high degree of uncertainty in the value of θ before observing any data.
+For example, one might assume a priori that θ lies in some ﬁnite range or volume, with a uniform distribution.
+Many priors instead reﬂect a preference for “simpler” solutions (such as smaller magnitude coeﬃcients, or a function that is closer to being constant).
+Now consider that we have a set of data samples {x(1), . . . , x(m)}.
+We can recover the eﬀect of data on our belief about θ by combining the data likelihood p(x(1), . . . , x(m)| θ) with the prior via Bayes’ rule:
+
+    insert function
+
+In the scenarios where Bayesian estimation is typically used, the prior begins as a relatively uniform or Gaussian distribution with high entropy, and the observation of the data usually causes the posterior to lose entropy and concentrate around a few highly likely values of the parameters.
+Relative to maximum likelihood estimation, Bayesian estimation oﬀers two important diﬀerences.
+First, unlike the maximum likelihood approach that makes predictions using a point estimate of θ, the Bayesian approach is to make predictions
+using a full distribution over θ.
+For example, after observing m examples, the predicted distribution over the next data sample, x
+(m+1), is given by
+
+    insert function
+
+Here each value of θ with positive probability density contributes to the prediction of the next example, with the contribution weighted by the posterior density itself.
+After having observed {x(1), . . . , x(m)}, if we are still quite uncertain about the value of θ, then this uncertainty is incorporated directly into any predictions we might make.
+
+In section 5.4, we discussed how the frequentist approach addresses the uncertainty in a given point estimate of θ by evaluating its variance.
+The variance of the estimator is an assessment of how the estimate might change with alternative samplings of the observed data.
+The Bayesian answer to the question of how to deal with the uncertainty in the estimator is to simply integrate over it, which tends to protect well against overﬁtting.
+This integral is of course just an application of the laws of probability, making the Bayesian approach simple to justify, while the frequentist machinery for constructing an estimator is based on the rather ad hoc decision to summarize all knowledge contained in the dataset with a single point estimate.
+The second important diﬀerence between the Bayesian approach to estimation and the maximum likelihood approach is due to the contribution of the Bayesian prior distribution.
+The prior has an inﬂuence by shifting probability mass density towards regions of the parameter space that are preferred a priori.
+In practice, the prior often expresses a preference for models that are simpler or more smooth.
+Critics of the Bayesian approach identify the prior as a source of subjective human judgment aﬀecting the predictions.
+Bayesian methods typically generalize much better when limited training data
+is available but typically suﬀer from high computational cost when the number of
+training examples is large.
+
+CHAPTER 5.
+MACHINE LEARNING BASICS
+This concludes part I, which has provided the basic concepts in mathematics and machine learning that are employed throughout the remaining parts of the book.
+You are now prepared to embark on your study of deep learning.
+Figure 5.13: Training examples from the QMUL Multiview Face Dataset (Gong et al.,
+2000), for which the subjects were asked to move in such a way as to cover the two-
+dimensional manifold corresponding to two angles of rotation.
+We would like learning algorithms to be able to discover and disentangle such manifold coordinates.
+Figure 20.6 illustrates such a feat.
 
 \end{document}
+
