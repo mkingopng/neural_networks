@@ -1,19 +1,26 @@
-# week 1
-## lecture slides
+# NO TICK NOT DONE!
+
+--------------------------------------------------------------------
+
+# Week 1
+
+## Lecture Slides
 - 1a 🗸
 - 1b 🗸
 - 1c 🗸
-## lecture attendance, videos and notes
+
+## Lecture Attendance, Videos and Notes
 - Tuesday 🗸
 - Thursday 🗸
 
-## exercises
-- perceptrons
-- MLPs
-- perceptrons and backprop
-- probability
-- probability 2
-## video recordings & notes:
+## Exercises
+- perceptrons 🗸
+- MLPs 🗸
+- perceptrons and backprop 🗸
+- probability 🗸
+- probability 2 🗸
+
+## Video Recordings & Notes:
   - basic neuroanatomy (4:40) 🗸
   - McCulloch & Pitts model of a single Neuron (5:40) 🗸
   - Perceptrons by hand (14:23) 🗸
@@ -28,66 +35,83 @@
   - curve-fitting, over-fitting, Ockham's razor and generalisation (12:11) 🗸
   - how do we avoid over fitting? (6:17) 🗸
   - drop out (9:18) 🗸
-## readings
+
+## Readings
   - Deep Learning (ch 1, 3, 3.10, 4.3, 5.2, 6.5.2, 7.11, 7.12) 
   - Deep Learning in Neural Networks: An Overview 
   - Nature Deep Learning Review 
   - learning representations by backpropagation 
 
 ---------------------------------------------------
-# week 2
-## lecture slides
-- 2a: cross entropy, softmax, weight decay and momentum
-- 2b: pytorch
-- 2c: Hidden Unit Dynamics
-## lecture attendance, videos and notes
+
+# Week 2
+
+## Lecture Slides
+- 2a: cross entropy, softmax, weight decay and momentum 🗸
+- 2b: pytorch 🗸
+- 2c: Hidden Unit Dynamics 🗸
+
+## Lecture Attendance, Videos and Notes
 - tuesday 🗸
 - thursday 🗸
-## exercises
-- softmax and back backpropagation
-- backprop variations
-- gradient descent with numpy
-- running pytorch
-- XOR with PyTorch
-- basic pytorch operations
-- hidden unit dynamics
-## video recordings & notes:
+
+## Exercises
+- softmax and back backpropagation 🗸
+- backprop variations 🗸
+- gradient descent with numpy 🗸
+- running pytorch 🗸
+- XOR with PyTorch 🗸
+- basic pytorch operations 🗸
+- hidden unit dynamics 🗸
+
+## Video recordings & notes:
   - cross entropy (7:38) 🗸
   - softmax (3:55) 🗸
   - weight decay (6:36) 🗸
   - momentum (8:47) 🗸
   - adam () 🗸
-  - pytorch (52:49) 
+  - pytorch (52:49) need to come back to this
+  - hidden unit dynamics () need to come back to this
   - limitations of two layer sigmoidal neural networks (10:37) 🗸
-## readings
+
+## Pytorch Tutorials:
+- 60 minute crash course
+- tutorials recommended from course
+
+## Readings
 - adam - a method for stochastic optimisation
 - an overview of gradient descent
 - Barkinok's Rational Functions
 - learning to tell two spirals apart
 - ruder.io
 - deep learning (6.3, 5.2.2, 5.6.1, 8.3, 8.5)
+- 
 ------------------------------------------------------
-# week 3: computer vision
-## lecture slides
+
+# Week 3: Computer Vision
+
+## Lecture Slides
 - 3a: Convolution 
 - 3b: Image Processing
 
-## lecture attendance, videos and notes
+## Lecture Attendance, Videos and Notes
 - tuesday 
 - thursday
-## exercises
+
+## Exercises
 - 
-## video recordings & notes:
+## Video Recordings & Notes:
   - ()
   - ()
   - ()
   - ()
   - ()
 
-## readings
+## Readings
 - adam - a method for stochastic optimisation
 - optimising gradient descent
 - deep learning (chapters 3.13, 5.2.2, 5.5, 5.6.1, 6.3.2, 8.3, 8.5)
+
 -------------------------------------------------------
 # week 4: NLP
 ## lecture slides
