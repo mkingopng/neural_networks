@@ -19,11 +19,12 @@ KMNIST for short. The paper describing the dataset is available here. It is
 worth reading, but in short: significant changes occurred to the language when 
 Japan reformed their education system in 1868, and the majority of Japanese 
 today cannot read texts published over 150 years ago. This paper presents a 
-dataset of handwritten, labeled examples of this old-style script (Kuzushiji). 
+dataset of handwritten, labeled examples of this old-style script (Kuzushiji).
+You can find the paper [here](https://arxiv.org/pdf/1812.01718.pdf)
 
 Along with this dataset, however, they also provide a much simpler one, 
 containing 10 Hiragana characters with 7000 samples per class. This is the 
-dataset we will be using.This part of the assessment comprises four steps:
+dataset we will be using. This part of the assessment comprises four steps:
 
 **Step 1** (1 mark)
 
@@ -36,7 +37,8 @@ the columns indicate the one chosen by the network.
 
 (0="o", 1="ki", 2="su", 3="tsu", 4="na", 5="ha",6="ma", 7="ya", 8="re", 9="wo"). 
 
-More examples of each character can be found here.
+More examples of each character can be found 
+[here](http://codh.rois.ac.jp/kmnist/index.html.en).
 
 **Step 2** (1 mark)
 
@@ -228,8 +230,28 @@ page regularly.
 ## Marking and feedback
 You will receive feedback on your submission within five business days.
 
+## Useful inks
+The following links have examples of other people's assignment submissions for 
+inspiration. Some claim to have received good marks. The goal is to be better 
+than all of them.
 
+- [spirals](https://github.com/anantkm/IntertwinedSpirals)
 
-http://codh.rois.ac.jp/kmnist/index.html.en
+- [KMNIST](https://github.com/anantkm/JapaneseCharacterRecognition)
 
-https://arxiv.org/pdf/1812.01718.pdf
+- [ProductReviewPrediction](https://github.com/anantkm/productReviewPrediction)
+
+- [COMP9444](https://github.com/raymondluk1995/COMP9444-Deep-Learning-Assignment-1)
+
+- [COMP9444](https://github.com/gakkistyle/comp9444)
+
+- [COMP9444](https://github.com/gavinpppeng/COMP9444)
+
+- [COMP9444](https://github.com/z5208980/comp9444-our-model-is-training/blob/master/hw2main.py)
+
+- [COMP9444](https://github.com/echushe/COMP9444)
+
+- [COMP9444](https://github.com/kovidd/Neural-Networks)
+
+- [COMP9444](https://github.com/chenquzhao/19T3_COMP9444)
+
