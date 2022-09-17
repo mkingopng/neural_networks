@@ -243,23 +243,14 @@ inspiration. Some claim to have received good marks. The goal is to be better
 than all of them.
 
 - [spirals](https://github.com/anantkm/IntertwinedSpirals)
-
 - [KMNIST](https://github.com/anantkm/JapaneseCharacterRecognition)
-
 - [ProductReviewPrediction](https://github.com/anantkm/productReviewPrediction)
-
 - [COMP9444](https://github.com/raymondluk1995/COMP9444-Deep-Learning-Assignment-1)
-
 - [COMP9444](https://github.com/gakkistyle/comp9444)
-
 - [COMP9444](https://github.com/gavinpppeng/COMP9444)
-
 - [COMP9444](https://github.com/z5208980/comp9444-our-model-is-training/blob/master/hw2main.py)
-
 - [COMP9444](https://github.com/echushe/COMP9444)
-
 - [COMP9444](https://github.com/kovidd/Neural-Networks)
-
 - [COMP9444](https://github.com/chenquzhao/19T3_COMP9444)
 
 # initial thoughts
@@ -284,4 +275,45 @@ For **part 2** (the twin spirals), I think it will be a similar approach to part
 I suspect that **part 3** is going to be the more difficult... especially the last 
 part, which calls for something novel. There are few novel things, as evidenced 
 by the number of repos already publicly available about this specific subject 
-and topics
+and topics.
+
+# Notes from tutorial
+- MNIST is super similar
+- dense/fully connected networks
+- with or without augmentation, you should see very small differences.
+- datasize: seems pretty decent for a problem of this nature.
+
+# hyper parameters
+- activation function? softmax or log softmax. log softmax performs a lot better. why? less prone to precision under underflow issue.
+- perhaps cross entropy? need to specify the target. and have two tensors. probably not going to be appropriate
+- different activation functions: tanh, sigmoid, ReLU, Softmax, log softmax,
+- optimizers: want to see us try different optimizers: adam, SGD,
+- learning rates:
+- momentum: 
+- weight decay: 
+- the way you're going to train
+
+# architecture/models
+- CNN approach
+- ResNet
+- transformer
+- resnet and really deep networks
+- anything linear you can use a tree based approach
+- ensemble of tree based and nn
+
+# other novel approaches
+- look up the LeNet approach
+- torch tutorial on MNIST
+- is it possible to do a transformers approach in base torch?
+
+# I think they're going to want to see:
+- hyperparameter tuning: 
+- different architectures
+- convolution
+- pooling & max pooling
+- padding
+- stride
+- data augmentation
+- filters
+
+- use WandB 
