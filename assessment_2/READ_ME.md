@@ -12,7 +12,7 @@ Please post any questions in the corresponding Ed forum.You will be penalised
 after the due date, unless you have an approved extension through Special 
 Consideration.
 
-# Part 1 - Japanese character recognition
+# Part 1 - Japanese character recognition (10 marks)
 For Part 1 of the assignment, you will be implementing networks to recognize 
 handwritten Hiragana symbols. The dataset to be used is Kuzushiji-MNIST or 
 KMNIST for short. The paper describing the dataset is available here. It is 
@@ -80,7 +80,7 @@ and report on your results;
 The aim of this exercise is not only to achieve high accuracy but also to 
 understand the effect of different choices on the final accuracy.
 
-## Part 2 - Twin spirals 
+## Part 2 - Twin spirals (12 marks total)
 For Part 2, you will be training on the famous Two Spirals Problem (Lang and 
 Witbrock, 1988). The supplied code `spiral_main.py` loads the training data 
 from `spirals.csv`, applies the specified model and produces a graph of the 
@@ -159,7 +159,7 @@ of Adam, changing `tanh` to `relu`, adding a third hidden layer, etc.
 
 The aim is to understand how different choices impact the final result.
 
-## Part 3 - Hidden unit dynamics
+## Part 3 - Hidden unit dynamics (8 marks total)
 
 <img src="assignment 2 images/hidden dynamics.png"/>
 
@@ -230,7 +230,14 @@ page regularly.
 ## Marking and feedback
 You will receive feedback on your submission within five business days.
 
-## Useful inks
+## marks summary
+- KMNIST: 10 marks
+- twin spirals: 12 marks
+- hidden unit dynamics: 8 marks
+**total**: 30 marks
+
+
+## Useful Links
 The following links have examples of other people's assignment submissions for 
 inspiration. Some claim to have received good marks. The goal is to be better 
 than all of them.
@@ -255,3 +262,26 @@ than all of them.
 
 - [COMP9444](https://github.com/chenquzhao/19T3_COMP9444)
 
+# initial thoughts
+- I need to look closely at how i can use data augmentation. That's been a strong 
+focus in week 3. The focus has mainly been on `torchvision.transforms()`. There 
+is no specific reason i couldn't use albumentations, but i think it might be 
+wise to limit myself to torch functions. Its probably not wise to create the 
+added complexity of having to install dependencies for the marker.
+
+For **part 1** (KMNIST):
+- I think i'll run through all the examples above, and test each one out. 
+- identify what works and what doesn't, and aggregate the best features of each of the examples.
+- then look at MNIST examples and see what I can learn/borrow from those.
+- then finally look at what i think might be possibilities to further improve.
+
+For **part 2** (the twin spirals), I think it will be a similar approach to part 1
+- run examples for GitHub repos
+- identify what works and what doesn't, and aggregate the best features of each of the examples.
+- look at other similar examples and see what I can learn
+- then finally look at what i think might be possibilities to further improve.
+
+I suspect that **part 3** is going to be the more difficult... especially the last 
+part, which calls for something novel. There are few novel things, as evidenced 
+by the number of repos already publicly available about this specific subject 
+and topics
