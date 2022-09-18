@@ -26,6 +26,25 @@ parser.add_argument('--cuda',default=False,action='store_true',help='use cuda')
 
 args = parser.parse_args()
 
+
+class Args:
+
+    target = 'heart18'
+    dim = 9
+    plot = False
+    net = 'raw'
+    init = 0.001
+    hid = 10
+    lr = 0.4
+    mom = 0.9
+    epochs = 100000
+    stop = 0.02
+    cuda = False
+
+
+args = Args
+
+
 # choose CPU or CUDA
 if args.cuda:
     device = 'cuda'

@@ -19,7 +19,9 @@ class NetLin(nn.Module):
 
     def forward(self, x):
         x = x.view(x.shape[0], -1)  # flattening the inputs.
-        x = F.log_softmax(self.lin_layer(x), dim=1)
+        # x = F.log_softmax(self.lin_layer(x), dim=1)
+        # x = F.softmax(self.lin_layer(x), dim=1)
+        x = F.tanh(self.lin_layer(x))
         return x  # CHANGE CODE HERE
 
 

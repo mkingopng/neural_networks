@@ -39,7 +39,7 @@ def plot_hidden(net):
         B = net.hid_out.weight.data.cpu()[i,1]
         C = net.hid_out.bias.data.cpu()[i]
 
-        j = 0;
+        j = 0
         if A == 0:
             if B != 0:
                 y0 = -C/B

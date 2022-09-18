@@ -117,6 +117,8 @@ def main():
     )
 
     args = parser.parse_args()
+    print(type(args))
+    print(args)
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 

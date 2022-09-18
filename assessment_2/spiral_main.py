@@ -57,6 +57,19 @@ parser.add_argument('--lr',type=float,default=0.01,help='learning rate')
 parser.add_argument('--epochs',type=int,default='100000',help='max training epochs')
 args = parser.parse_args()
 
+
+# class Args:
+#
+#     net = 'raw'
+#     init = 0.1
+#     hid = 10
+#     lr = 0.01
+#     epochs = 100000
+#
+#
+# args = Args
+
+
 df = pd.read_csv('spirals.csv')
 
 data = torch.tensor(df.values,dtype=torch.float32)

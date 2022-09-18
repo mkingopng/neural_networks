@@ -38,17 +38,16 @@ class RawNet(torch.nn.Module):
         self.fc_layer_2 = nn.Linear(num_hid, num_hid)
         self.fc_layer_3 = nn.Linear(num_hid, 1)
 
+    def forward(self, input):
+        hidden_s1 = self.fc_layer_1(input)
+        self.layer_1_sum = torch.tanh(hidden_s1)
 
-def forward(self, input):
-    hidden_s1 = self.fc_layer_1(input)
-    self.layer_1_sum = torch.tanh(hidden_s1)
+        hidden_s2 = self.fc_layer_2(self.layer_1_sum)
+        self.layer_2_sum = torch.tanh(hidden_s2)
 
-    hidden_s2 = self.fc_layer_2(self.layer_1_sum)
-    self.layer_2_sum = torch.tanh(hidden_s2)
-
-    hidden_s3 = self.fc_layer_3(self.layer_2_sum)
-    self.output = torch.sigmoid(hidden_s3)
-    return self.output
+        hidden_s3 = self.fc_layer_3(self.layer_2_sum)
+        self.output = torch.sigmoid(hidden_s3)
+        return self.output
 
 
 def graph_hidden(net, layer, node):
