@@ -84,8 +84,8 @@
 - Barkinok's Rational Functions
 - learning to tell two spirals apart
 - ruder.io
-- deep learning (6.3, 5.2.2, 5.6.1, 8.3, 8.5)
-- 
+- optimising gradient descent
+- deep learning (chapters 3.13, 5.2.2, 5.5, 5.6.1, 6.3.2, 8.3, 8.5)
 ------------------------------------------------------
 
 # Week 3: Computer Vision
@@ -99,18 +99,29 @@
 - thursday
 
 ## Exercises
+- LeNet
+- AlexNet
 - 
 ## Video Recordings & Notes:
-  - ()
-  - ()
-  - ()
-  - ()
-  - ()
+  - video 1 ()
+  - video 2 ()
+  - video 3 ()
+  - video 4 ()
+  - video 5 ()
+  - video 6 (4:44)
+  - video 7 (6:53) ResNet & DenseNet
+  - video 8 (10:37) neural style transfer
 
 ## Readings
-- adam - a method for stochastic optimisation
-- optimising gradient descent
-- deep learning (chapters 3.13, 5.2.2, 5.5, 5.6.1, 6.3.2, 8.3, 8.5)
+- batch normalisation - accelerated deep network training
+- delving into rectifiers
+- gradient based learning applied to document recognition
+- deep residual learning
+- densely connected Convolutions
+- imagenet classification with deep convolutional neural networks
+- playing atari with deep reinforcement learning
+- receptive fields of single neurons in the cat striate cortex
+- image style transfer using convolutional neural networks
 
 -------------------------------------------------------
 # week 4: NLP
