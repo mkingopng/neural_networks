@@ -1,0 +1,23 @@
+{
+    "os": "Linux-5.19.0-76051900-generic-x86_64-with-glibc2.35",
+    "python": "3.10.4",
+    "heartbeatAt": "2022-09-17T23:11:10.799195",
+    "startedAt": "2022-09-17T23:11:10.014910",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 3090",
+    "gpu_count": 1,
+    "cpu_count": 32,
+    "cuda": null,
+    "args": null,
+    "state": "running",
+    "program": "Documents/GitHub/neural_networks/sandbox/kmnist.ipynb",
+    "root": "/home/noone/Documents/GitHub/neural_networks",
+    "git": {
+        "remote": "https://github.com/mkingopng/neural_networks.git",
+        "commit": "3e9157cf3b9f4702f40173dd00372403c5d519c5"
+    },
+    "email": "71872141+mkingopng@users.noreply.github.com",
+    "host": "pop-os",
+    "username": "noone",
+    "executable": "/home/noone/anaconda3/envs/pytorch/bin/python"
+}
