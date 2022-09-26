@@ -26,7 +26,7 @@ and the number of zeros in different columns (in the Q1). I explained this with
 the Q1 during the webinar, and James made a beautiful diagram for this 
 (https://edstem.org/au/courses/9353/discussion/1015014).
 
-<img alt="img_1.png" src="img_1.png"/>
+<img alt="img_1.png" src="images/img_1.png"/>
 
 You need to make some careful allocations or adjustments here.
 
@@ -37,14 +37,14 @@ Best,
 
 Dong
 
-<img alt="img.png" src="img.png"/>
+<img alt="img.png" src="images/img.png"/>
 
 # Notes from XueSong
 I've shared my solution to draw this diamond shaped plot (different from Dong's 
 post) on colab, feel free to test it by yourself and share your concerns with 
 us if there's any :)
 
-<img alt="img_2.png" src="img_2.png"/>
+<img alt="img_2.png" src="images/img_2.png"/>
 
 reference `hidden_unit_dynamic.ipynb`
 

@@ -1,6 +1,10 @@
-# spiral.py
-# ZZEN9444, CSE, UNSW
+"""
+Student: Michael Kingston
+file_name: spiral.py
+Subject: ZZEN9444, UNSW
 
+Question:
+"""
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
@@ -9,46 +13,42 @@ import matplotlib.pyplot as plt
 class PolarNet(torch.nn.Module):
     def __init__(self, num_hid):
         super(PolarNet, self).__init__()
-        self.fc_layer_1 = nn.Linear(2, num_hid)
-        self.fc_layer_2 = nn.Linear(num_hid, 1)
+        self.linear1 = nn.Linear(2, num_hid)
+        self.tanh = nn.Tanh()
+        self.linear2 = nn.Linear(num_hid, 1)
+        self.sigmoid = nn.Sigmoid()
+        self.hid1 = 0
 
     def forward(self, input):
-        raw_x = input[:, 0]
-        raw_y = input[:, 1]
-        # convertion to polar co-ordinates from the inputs.
-        x_square = raw_x ** 2
-        y_square = raw_y ** 2
-        sqaure_sum = x_square + y_square
-        sqrt_sqaure_sum = torch.sqrt(sqaure_sum)
-        r = sqrt_sqaure_sum.reshape(-1, 1)  # final r
-        temp_a = torch.atan2(raw_y, raw_x)
-        a = temp_a.reshape(-1, 1)  # final a
-        new_input = torch.cat((r, a), 1)
-        hidden_s1 = self.fc_layer_1(new_input)
-        self.layer_1_sum = torch.tanh(hidden_s1)  # fix_me
-        hidden_s2 = self.fc_layer_2(self.layer_1_sum)
-        self.output = torch.sigmoid(hidden_s2)  # fix_me
-        return self.output
+        x = input[:, 0]
+        y = input[:, 1]
+        r = torch.sqrt(torch.pow(x, 2) + torch.pow(y, 2)).view(-1, 1)
+        a = torch.atan2(y, x).view(-1, 1)
+        x_1 = torch.cat((r, a), 1)
+        self.hid1 = self.tanh(self.linear1(x_1))
+        output = self.sigmoid(self.linear2(self.hid1))
+        return output
 
 
 class RawNet(torch.nn.Module):
     def __init__(self, num_hid):
         super(RawNet, self).__init__()
-        self.fc_layer_1 = nn.Linear(2, num_hid)
-        self.fc_layer_2 = nn.Linear(num_hid, num_hid)
-        self.fc_layer_3 = nn.Linear(num_hid, 1)
+        self.linear1 = nn.Linear(2,num_hid)
+        self.tanh = nn.Tanh()
+        self.linear2 = nn.Linear(num_hid,num_hid)
+        self.output = nn.Linear(num_hid,1)
+        self.sigmoid = nn.Sigmoid()
+        self.hid1 = 0
+        self.hid2 = 0
 
-
-def forward(self, input):
-    hidden_s1 = self.fc_layer_1(input)
-    self.layer_1_sum = torch.tanh(hidden_s1)
-
-    hidden_s2 = self.fc_layer_2(self.layer_1_sum)
-    self.layer_2_sum = torch.tanh(hidden_s2)
-
-    hidden_s3 = self.fc_layer_3(self.layer_2_sum)
-    self.output = torch.sigmoid(hidden_s3)
-    return self.output
+    def forward(self, input):
+        x = input[:, 0].view(-1, 1)
+        y = input[:, 1].view(-1, 1)
+        x_1 = torch.cat((x, y), 1)
+        self.hid1 = self.tanh(self.linear1(x_1))
+        self.hid2 = self.tanh(self.linear2(self.hid1))
+        output = self.sigmoid(self.output(self.hid2))
+        return output
 
 
 def graph_hidden(net, layer, node):
@@ -57,20 +57,14 @@ def graph_hidden(net, layer, node):
     xcoord = xrange.repeat(yrange.size()[0])
     ycoord = torch.repeat_interleave(yrange, xrange.size()[0], dim=0)
     grid = torch.cat((xcoord.unsqueeze(1), ycoord.unsqueeze(1)), 1)
-
-    with torch.no_grad():
-        net.eval()
-        output = net(grid)  # fix_me:
+    with torch.no_grad():  # suppress updating of gradients
+        net.eval()  # toggle batch norm, dropout
+        net(grid)
         if layer == 1:
-            pred = (net.layer_1_sum[:, node] >= 0).float()
+            pred = (net.hid1[:, node] >= 0.5).float()
         elif layer == 2:
-            pred = (net.layer_2_sum[:, node] >= 0).float()
-
-        # plot function computed by model
+            pred = (net.hid2[:, node] >= 0.5).float()
         plt.clf()
-        plt.pcolormesh(
-            xrange,
-            yrange,
-            pred.cpu().view(yrange.size()[0],
-                            xrange.size()[0]),
-            cmap='Wistia')
+        plt.pcolormesh(xrange, yrange,
+                       pred.cpu().view(yrange.size()[0], xrange.size()[0]),
+                       cmap='Wistia')
