@@ -141,3 +141,6 @@ data/
 /w2_backprop_variations_and_hidden_unit_dynamics/PyTorch tutorials/tutorial videos/
 /w3_image_processing/wk3 video recordings/
 /sandbox/wandb_creds.py
+/w0_refreshers/
+/sandbox/wandb_kmnist.ipynb
+/sandbox/

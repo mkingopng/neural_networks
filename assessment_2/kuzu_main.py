@@ -1,18 +1,3 @@
-"""
-We don't need to modify the main file. You build the model in kuzu them call
-the main file to run it.
-
-if you want to process one image at a time, your input is 28 x 28, however
-pytorch allows for batch processing which changes things.
-
-if you are using a CNN you are not reshaping into a vector. you are passing
-28 x 28 to the model. The size of the feature map may be down-sampled
-especially for classification.
-
-the CNN part is covered in week 3. The other parts can probably be done now.
-
-Refer to typed notes from week 2 tutorial
-"""
 # kuzu_main.py
 # ZZEN9444, CSE, UNSW
 
@@ -39,10 +24,8 @@ def train(args, model, device, train_loader, optimizer, epoch):
         optimizer.step()
         if batch_idx % 100 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                epoch, batch_idx * len(data),
-                len(train_loader.dataset),
-                       100. * batch_idx / len(train_loader), loss.item())
-            )
+                epoch, batch_idx * len(data), len(train_loader.dataset),
+                       100. * batch_idx / len(train_loader), loss.item()))
 
 
 def test(args, model, device, test_loader):
@@ -54,21 +37,18 @@ def test(args, model, device, test_loader):
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            # sum up batch loss
-            test_loss += F.nll_loss(output, target, reduction='sum').item()
-            # determine index with maximal log-probability
-            pred = output.argmax(dim=1, keepdim=True)
-            correct += pred.eq(target.view_as(pred)).sum().item()
-            # update confusion matrix
+            test_loss += F.nll_loss(output, target,
+                                    reduction='sum').item()  # sum up batch loss
+            pred = output.argmax(dim=1,
+                                 keepdim=True)  # determine index with maximal log-probability
+            correct += pred.eq(
+                target.view_as(pred)).sum().item()  # update confusion matrix
             conf_matrix = conf_matrix + metrics.confusion_matrix(
-                target.cpu(),
-                pred.cpu(),
-                labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-            )
-        # print confusion matrix
+                target.cpu(), pred.cpu(),
+                labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         np.set_printoptions(precision=4, suppress=True)
         print(type(conf_matrix))
-        print(conf_matrix)
+        print(conf_matrix)  # print confusion matrix
 
     test_loss /= len(test_loader.dataset)
 
@@ -81,40 +61,20 @@ def test(args, model, device, test_loader):
 def main():
     # command-line arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--net',
-        type=str,
-        default='full',
-        help='lin, full or conv'
-    )
 
-    parser.add_argument(
-        '--lr',
-        type=float,
-        default=0.01,
-        help='learning rate'
-    )
+    parser.add_argument('--net', type=str, default='full',
+                        help='lin, full or conv')
 
-    parser.add_argument(
-        '--mom',
-        type=float,
-        default=0.5,
-        help='momentum'
-    )
+    parser.add_argument('--lr', type=float, default=0.01,
+                        help='learning rate')
 
-    parser.add_argument(
-        '--epochs',
-        type=int,
-        default=10,
-        help='number of training epochs'
-    )
+    parser.add_argument('--mom', type=float, default=0.5, help='momentum')
 
-    parser.add_argument(
-        '--no_cuda',
-        action='store_true',
-        default=False,
-        help='disables CUDA'
-    )
+    parser.add_argument('--epochs', type=int, default=10,
+                        help='number of training epochs')
+
+    parser.add_argument('--no_cuda', action='store_true', default=False,
+                        help='disables CUDA')
 
     args = parser.parse_args()
 
@@ -125,38 +85,22 @@ def main():
     kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
 
     # define a transform to normalize the data
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-         transforms.Normalize((0.5,), (0.5,))]
-    )
+    transform = transforms.Compose([transforms.ToTensor(),
+                                    transforms.Normalize((0.5,), (0.5,))])
 
     # fetch and load training data
-    trainset = datasets.KMNIST(
-        root='./data',
-        train=True,
-        download=True,
-        transform=transform
-    )
+    trainset = datasets.KMNIST(root='./data', train=True, download=True,
+                               transform=transform)
 
-    train_loader = torch.utils.data.DataLoader(
-        trainset,
-        batch_size=64,
-        shuffle=False
-    )
+    train_loader = torch.utils.data.DataLoader(trainset, batch_size=64,
+                                               shuffle=False)
 
     # fetch and load test data
-    testset = datasets.KMNIST(
-        root='./data',
-        train=False,
-        download=True,
-        transform=transform
-    )
+    testset = datasets.KMNIST(root='./data', train=False, download=True,
+                              transform=transform)
 
-    test_loader = torch.utils.data.DataLoader(
-        testset,
-        batch_size=64,
-        shuffle=False
-    )
+    test_loader = torch.utils.data.DataLoader(testset, batch_size=64,
+                                              shuffle=False)
 
     # choose network architecture
     if args.net == 'lin':
@@ -168,11 +112,7 @@ def main():
 
     if list(net.parameters()):
         # use SGD optimizer
-        optimizer = optim.SGD(
-            net.parameters(),
-            lr=args.lr,
-            momentum=args.mom
-        )
+        optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=args.mom)
 
         # training and testing loop
         for epoch in range(1, args.epochs + 1):

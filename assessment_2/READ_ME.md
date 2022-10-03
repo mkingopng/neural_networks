@@ -102,7 +102,7 @@ followed by network layers.
 
 **Step 2** (1 mark)
 
-<img src="assignment 2 images/spiral.png"/>
+<img src="images/spiral.png"/>
 
 In Python on your computer, run the code by typing:
 `python3 spiral_main.py --net polar --hid 10`.
@@ -161,7 +161,7 @@ The aim is to understand how different choices impact the final result.
 
 ## Part 3 - Hidden unit dynamics (8 marks total)
 
-<img src="assignment 2 images/hidden dynamics.png"/>
+<img src="images/hidden dynamics.png"/>
 
 In Part 3, you will be investigating hidden unit dynamics, as described in 
 lesson 2, using the supplied code `encoder_main.py` and `encoder_model.py` as 
@@ -190,7 +190,7 @@ rotated). Your tensor should have 18 rows and 14 columns. Include the final
 image in your report, and include the tensor `heart18` in your file 
 `encoder.py` `python3 encoder_main.py --target=heart18`
 
-<img src="assignment 2 images/heart.png"/>
+<img src="images/heart.png"/>
 
 **Step 4** (3 marks)
 
