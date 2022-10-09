@@ -45,7 +45,6 @@
 ---------------------------------------------------
 
 # Week 2
-
 ## Lecture Slides
 - 2a: cross entropy, softmax, weight decay and momentum 🗸
 - 2b: pytorch 🗸
@@ -89,7 +88,6 @@
 ------------------------------------------------------
 
 # Week 3: Computer Vision
-
 ## Lecture Slides
 - 3a: Convolution 
 - 3b: Image Processing
@@ -142,17 +140,20 @@
   - ()
   - ()
 ## readings
+
 -------------------------------------------------------
 # week 5: Reinforcement Learning
 ## lecture slides
 - 5a: Reinforcement Learning
 - 5b: Policy Learning & DeepRL
+
 ## lecture attendance, videos and notes
 - tuesday 
 - thursday
 
 ## exercises
-- 
+- exercise: reinforcement learning
+- revision 7: reinforcement learning
 
 ## video recordings & notes:
   - ()
