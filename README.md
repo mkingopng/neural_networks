@@ -1,2 +1,2 @@
 # neural_networks
-UNSW subject on neural networds
+UNSW subject on neural networks
