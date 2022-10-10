@@ -628,23 +628,73 @@ For example, did you notice what the network thinks is the first and last name o
 
 \section{Exercises}\label{sec:exercises}
 Consider the sentence:
-
 \textif{"two flowers grew tall on two tall towers"}
 
 \textbf{Question 1}
-
-Write the co-occurrence matrix $X$ for this sentence, using a 4-word context window (i.e. two context words on either side of the central word).
+Write the co-occurrence matrix $X$ for this sentence, using a 4-word context
+window (i.e.\ two context words on either side of the central word).
 
 \textbf{Answer}
+\begin{center}
+\begin{tabular}{ |c|c|c| }
+ \hline
+  & flowers & grew & on & tall & towers & two \\
+ flowers & 0 & 1 & 0 & 1 & 0 & 1 \\
+ grew & 1 & 0 & 1 & 1 & 0 & 1 \\
+ on & 0 & 1 & 0 & 2 & 0 & 1 \\
+ tall & 1 & 1 & 2 & 0 & 1 & 2 \\
+ towers & 0 & 0 & 0 & 1 & 0 & 1 \\
+ two & 1 & 1 & 1 & 2 & 1 & 0 \\
+ \hline
+\end{tabular}
+\end{center}
 
 \textbf{Question 2}
 Use `torch.svd()` to compute the singular value decomposition of this matrix $X = UST^T$.
 
 \textbf{Answer}
+see .py file
+\textbf{Note: replacing U and V with -U and -V would also preserve $X=USV^T$}
 
 \textbf{Question 3}
 Extract a word representation from the first two columns of $U$ and use matplotlib to plot the words on a 2-dimensional graph.
 
 \textbf{Answer}
+see .py file
+\textbf{Note: the image may be rotated dependign on the sign of $U$}
+\part{4d language processing}\label{part:4d-language-processing}
+
+\section{Discussion: Translation, Transformers and ChatBots}\label{sec:discussion:-translation-transformers-and-chatbots}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[]{/home/noone/Documents/GitHub/neural_networks/out/images/attention-mechanism}
+    \caption[attention mechanism]{attention mechanism}
+    \label{fig:attention mechanism}
+\end{figure}
+
+These articles explain how an attention mechanism can be used for
+sequence-to-sequence prediction, and how stacked LSTMs, combined with attention
+and word vectors, can be used for multilingual neural machine translation:
+
+\subsection{Transformers and GPT-3}\label{subsec:transformers-and-gpt-3}
+Transformers like GPT-3 have recently achieved very impressive results on text
+prediction, as described in these resources:
+
+\subsection{Recommended discussion}\label{subsec:recommended-discussion}
+Recommended discussion
+
+In the Ed discussion board, write a brief post in the category Lessons - Week 7 outlining your thoughts on the following three points.
+Then reply to at least one other person's post and read through others to consider multiple viewpoints.
+\begin{itemize}
+  \item Do you believe GPT-3 is really producing \("\)original\("\) material, or is it just \("\)mashing\("\) existing texts together in a deep way?
+  \item What will be the implications of systems like GPT-3 on issues such as journalism, commentary, copyright, authorship, plagiarism, education?
+  \item Until recently, major companies were still using traditional scripting for their chat-bots, rather than deep neural networks. One motivation for this might be to avoid problems such as those manifested by Microsoft's Tay system in 2016.
+\end{itemize}
+
+Do you think chatbots in the future might be based on transformers and other deep learning architectures?
+If so, how could they avoid becoming inappropriately rude, offensive, misleading, deceptive or impertinent?
+
+    insert video
 
 \end{document}

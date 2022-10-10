@@ -128,19 +128,33 @@
 - 4b: Long Short Term Memory
 - 4c: Word Vectors
 - 4d: Language processing
+
 ## lecture attendance, videos and notes
-- tuesday 
-- thursday
+- tuesday 🗸
+- thursday 🗸
 ## exercises
 - 
 ## video recordings & notes:
-  - ()
-  - ()
-  - ()
-  - ()
+  - NetTalk Test ()
+  - Recurrent Networks ()
+  - second order or gated networks ()
+  -  ()
   - ()
 ## readings
-
+- parallel networks that learn to pronounce english text
+- finding structure in time
+- learning to count without a counter
+- analysis of dynamic recognisers
+- learning the dynamics of embedded clauses
+- incremental training of first order recurrent neural networks to predict a context-sensitive language
+- understanding LSTM networks (Colah GitHub)
+- LSTM (Long short term memory)
+- use of Reber Grammar
+- Introduction to Neural Machine Translation with GPUs
+- Google Neural machine Translation System
+- Transformers from Scratch
+- Language Models are few shot learners
+- 
 -------------------------------------------------------
 # week 5: Reinforcement Learning
 ## lecture slides
@@ -156,14 +170,42 @@
 - revision 7: reinforcement learning 🗸
 
 ## video recordings & notes:
-  - ()
-  - ()
-  - ()
-  - ()
-  - ()
-
+  - probabilistic policies ()
+  - reinforcement learning framework ()
+  - summing an infinite series ()
+  - RL approaches ()
+  - Computing the value function ()
+  - Q learning Function ()
+  - temporal difference learning ()
+  - theoretical results ()
+  - computer games playing ()
+  - policy learning ()
+  - evolutionary learning ()
+  - policy gradients ()
+  - pac man ()
+  - the log trick ()
+  - actor critic ()
+  - deep q learning for atari games ()
+  - DQN improvements ()
+  - advantage actor critic ()
+  - examples of deep reinforcement learning ()
+  - deep reinforcement learning ()
+  - 
 ## readings
-
+- Learning to Predict by the methods of temporal differences
+- Leraning with delayed rewards
+- Q-learning
+- TD converges with probability 1
+- Practical issues in temporal difference learning 
+- boot strapping from game tree search
+- exploring evolutionary learning in a simulated hockey environment
+- Evolution strategies as a scalable alternative to reinforcement learning
+- Simple statistical gradient following algorithms for connectionist reinforcement learning
+- human level control through deep reinforcement learning
+- prioritised experience replay
+- deep reinforcement learning with double q learning
+- asynchronous methods for deep reinforcement learning
+- 
 -------------------------------------------------------
 # week 6: Unsupervised Learning
 ## lecture slides
