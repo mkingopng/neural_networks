@@ -124,10 +124,10 @@
 -------------------------------------------------------
 # week 4: NLP
 ## lecture slides
-- 4a: Recurrent Neural Networks
-- 4b: Long Short Term Memory
-- 4c: Word Vectors
-- 4d: Language processing
+- 4a: Recurrent Neural Networks 🗸
+- 4b: Long Short Term Memory 🗸
+- 4c: Word Vectors 🗸
+- 4d: Language processing 🗸
 
 ## lecture attendance, videos and notes
 - tuesday 🗸
@@ -135,12 +135,18 @@
 ## exercises
 - 
 ## video recordings & notes:
-  - NetTalk Test ()
-  - Recurrent Networks ()
-  - second order or gated networks ()
-  -  ()
-  - ()
-## readings
+  - NetTalk Test (0:60) 🗸
+  - Recurrent Networks & processing sequences (16:28)
+  - second order or gated networks (21:57)
+  - long range dependencies (19:48)
+  - word vectors (22:14)
+  - word embeddings (18:13)
+  - word2vec (25:49)
+  - negative sampling (9:06)
+  - microsoft racist robot ai ()
+  - gpt 3 language models are few shot learners()
+
+## Readings
 - parallel networks that learn to pronounce english text
 - finding structure in time
 - learning to count without a counter
@@ -154,10 +160,12 @@
 - Google Neural machine Translation System
 - Transformers from Scratch
 - Language Models are few shot learners
-- 
+
+## Notes
+
 -------------------------------------------------------
 # week 5: Reinforcement Learning
-## lecture slides
+## Lecture slides
 - 5a: Reinforcement Learning 🗸
 - 5b: Policy Learning & DeepRL 🗸
 
@@ -193,11 +201,11 @@
   - 
 ## readings
 - Learning to Predict by the methods of temporal differences
-- Leraning with delayed rewards
+- Learning with delayed rewards
 - Q-learning
 - TD converges with probability 1
 - Practical issues in temporal difference learning 
-- boot strapping from game tree search
+- boot-strapping from game tree search
 - exploring evolutionary learning in a simulated hockey environment
 - Evolution strategies as a scalable alternative to reinforcement learning
 - Simple statistical gradient following algorithms for connectionist reinforcement learning
