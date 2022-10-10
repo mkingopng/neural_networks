@@ -7,12 +7,15 @@
 % Packages
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{float}
 
 % Document
 \begin{document}
 
-\section{Reinforcement Learning}\label{sec:reinforcement-learning}
-\subsection{Purpose}\label{subsec:purpose}
+\part{Reinforcement Learning}\label{part:reinforcement-learning}
+
+\section{Purpose}\label{sec:purpose}
 The topic for this week is Reinforcement Learning (RL).
 We will see how reinforcement learning tasks can be formally defined, compare
 different models of optimality, and discuss the need for exploration and the
@@ -86,15 +89,14 @@ maximises the cumulative reward.
 In some cases, the Environment may be probabilistic or \textbb{stochastic} −−
 meaning that the transitions and/or rewards are not fully determined, but
 instead occur randomly according to some probability distribution:
-
-\[\delta (s_{t = 1} = s | s_t, a_t)\], \[R (r_t = r | s_t, a_t)\]
+\[\delta (s_{t = 1} = s | s_t, a_t),R (r_t = r | s_t, a_t)\]
 
 The Agent can also employ a probabilistic policy, with its actions chosen
 according to a probability distribution:
 
 \[\pi (a_t = a | s_t)\]
 
-\subsection{Optional video}\label{subsec:optional-video}
+\subsection{Optional Video}\label{subsec:optional-video}
 insert video
 
 \subsection{Probabilistic Policies}\label{subsec:probabilistic-policies}
@@ -106,7 +108,7 @@ such as partially observable or multiplayer environments.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/probabilistic policy/probabilistic-policy}
+    \includegraphics[width=\textwidth]{../out/images/probabilistic-policy}
     \caption[probabilistic policy]{probabilistic policy}
     \label{fig:probabilistic policy}
 \end{figure}
@@ -123,7 +125,7 @@ required in order to make agent choices unpredictable to the opponent.
 \subsection{Optional video}\label{subsec:optional-video2}
 insert video
 
-\subsection{Models of optimality}\label{subsec:models-of-optimality}
+\subsection{Models of Optimality}\label{subsec:models-of-optimality}
 What exactly do we mean when we say that an RL Agent should choose a policy
 which maximises its future rewards?
 
@@ -140,7 +142,13 @@ In Reinforcement Learning, this number $gamma$ is called the discount factor
 and is used to define the infinite discounted reward, which can be compared
 with average reward and finite horizon reward.
 
-$$$$
+\[
+\begin{aligned}
+    \text{Finite horizon reward} &: \sum_{i=0}^{h-1} r_{t+1} \\
+    \text{Infinite discounted reward} &: \sum_{i=0}^{\infty} \gamma^i r_{t+i}, 0 \leq \gamma \leq 1\\
+    \text{Average Reward} &: \lim_{h \to \infty} \dfrac{1}{h} \sum_{i=0}^{h-1} r_{t+1} \\
+\end{aligned}
+\]
 
 We normally try to maximise the infinite discounted reward, because it is
 easier to analyse theoretically and also works well in practice.
@@ -153,12 +161,14 @@ a small reward soon and a large reward very far in the future −-− for exampl
 100 dollars today compared with a million dollars, 50 years from now.
 
 \subsection{Comparing Models of Optimality}\label{subsec:comparing-models-of-optimality}
+
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/Documents/GitHub/neural_networks/out/images/comparing-models-of-optimality}
+    \includegraphics[width=\textwidth]{../out/images/comparing-models-of-optimality}
     \caption[comparing models of optimality]{comparing models of optimality}
     \label{fig:comparing models of optimality}
 \end{figure}
+
 This environment illustrates how the choice of action may depend on the model
 of optimality.
 An agent trying to maximise the finite horizon reword with $h=4$ would prefer
@@ -177,9 +187,10 @@ timestep 6.
 By the same logic, the \$\10 received by $A_2$ in timestep nnn is always
 slightly more valuable than the \$\11 received by $A_3$ in timestep  $n + 1$.
 
-\subsection{optional video}\label{subsec:optional-video4}
+\subsection{Optional Video}\label{subsec:optional-video4}
+insert video
 
-\subsection{value function}\label{subsec:value-function}
+\subsection{Value Function}\label{subsec:value-function}
 Every policy $\pi$ determines a Value Function $V^{\pi}: S \to R$ where
 $V^{\pi}(s)$ is the average discounted reward received by an agent who begins
 in state sss and chooses its actions according to policy $\pi$.
@@ -199,7 +210,7 @@ randomly.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/Documents/GitHub/neural_networks/out/images/value-function-example}
+    \includegraphics[width=\textwidth]{../out/images/value-function-example}
     \caption[value function example]{value function example}
     \label{fig:value function example}
 \end{figure}
@@ -222,8 +233,8 @@ For larger environments, we need a way of learning it, through experience.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/probabilistic policy/multiarm_bandit}
-    \caption[multiarm_bandit]{multiarm_bandit}
+    \includegraphics[width=\textwidth]{../out/images//multiarm_bandit}
+    \caption[Multiarm Bandit]{multiarmbandit}
     \label{fig:multiarm_bandit}
 \end{figure}
 
@@ -270,7 +281,7 @@ order to get to the state from which we can obtain a high reward.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/probabilistic policy/asdf}
+    \includegraphics[width=\textwidth]{../out/images/asdf}
     \caption[asdf]{asdf}
     \label{fig:asdf}
 \end{figure}
@@ -288,6 +299,7 @@ Knowing this optimal value function can help to determine the optimal policy.
 
 Let $\gamma = 0.9$ and consider the policy $\pi : S_1 \mapsto a_2 , S_2 \mapsto a_1, S_3 \mapsto a_2$.
 We have
+
 \[
 \begin{aligned}
 V^{\pi} (S_3) &= \dfrac{2}{1 - \gamma} = 20 \\
@@ -295,17 +307,20 @@ V^{\pi}(S_2) &= -1 + \gamma V (S_3) = -1 + 18 = 17 \\
 V^{\pi}(S_1) &= -1 + \gamma V (S_2) = -1 + 15.3 = 14.3
 \end{aligned}
 \]
+
 For this example, the policy $\pi$ shown above must be the \textbb{optimal}
 policy, because the value function for states $S_1$ and $S_2$ under any other
 policy would not be more than 101010.
 Therefore, the optimal value function is
+
 \[V^* : S_1 \mapto 14.3, S_2 \mapsto 20\]
+
 If we were given this value function $V^*$, we could use it to determine the
 optimal policy $\pi$ provided we also know the reward function $R: S \times Z \to R$
 and the transfer function $\delta : S \times A \to S$.
 This information is sometimes called the \("\)World Model\("\).
 
-\subsection{video: computing the value function}\label{subsec:video:-computing-the-value-function}
+\subsection{Video: Computing the Value Function}\label{subsec:video:-computing-the-value-function}
 insert video
 
 \subsection{Q-Function}\label{subsec:q-function}
@@ -313,15 +328,18 @@ The Q-function is a more sophisticated version of the value function which
 enables an agent to act optimally without needing to know the World Model.
 For any policy $\pi$, the \textbb{Q-function} $Q^{\pi} (s,a)$ is the expected
 discounted reward received by an agent who begins in state $s$, first performs
-action aaa and then follows policy $\pi$ for all subsequent timesteps.
+action $a$ and then follows policy $\pi$ for all subsequent timesteps.
 
 If $\pi = \pi^*$ is optimal, then $Q^* (s,a) = Q^{\pi^*}(s,a)$ is the maximum
 (expected) discounted reward obtainable from sss, if the agent is forced to
 take action aaa in the first timestep but can act optimally thereafter.
 
 If the optimal Q-function $Q^*$ is known, then the optimal policy is given by
+
 \[\pi^* (s) = \arg \max Q^* (s,a)\]
+
 The Q-function for the environment shown above can be computed as follows:
+
 \[
 \begin{aligned}
     Q(S_1, a_1 ) &= 1 + \gamma V(S_1 ) = 1 + 0.9 \times 14.3 = 13.87 \\
@@ -332,9 +350,11 @@ The Q-function for the environment shown above can be computed as follows:
     Q(S_3, a_2 ) &= V(S_3) = 20
 \end{aligned}
 \]
-\subsection{Optional video}\label{subsec:optional-video5}
 
-\subsection{TD-learning and Q-learning}\label{subsec:td-learning-and-q-learning}
+\subsection{Optional video}\label{subsec:optional-video5}
+insert video
+
+\section{TD-learning and Q-learning}\label{sec:td-learning-and-q-learning}
 Reinforcement Learning algorithms can generally be grouped into three classes:
 
 \begin{itemize}
@@ -379,6 +399,7 @@ Q-learning is similar to TD-learning except that the Q-function
 $Q^*: S \times A \to R$ depends on a state, action pair instead of just a state.
 
 For a deterministic environment, $\pi^*, Q^*$ and $V^*$ are related by
+
 \[
 \begin{aligned}
     \pi^* (s) &= \arg \max Q^* (s, a) \\
@@ -387,6 +408,7 @@ For a deterministic environment, $\pi^*, Q^*$ and $V^*$ are related by
     \text{so} Q*(s,a) &= R(s,a) + \gamma \max Q^* (s,b)
 \end{aligned}
 \]
+
 The last equation suggests that we can iteratively update our estimate by
 
 \[Q (s_t , a_t ) \laftarrow r_t + \gamma \max Q (s_{t+1}, b)\]
@@ -409,13 +431,14 @@ many times.
 For small environments with a limited number of states and actions, this
 assumption is reasonable.
 For more challenging environments, the number of states can be exponentially
-large and it may be impractical to assume that every state will be visited even
+large, and it may be impractical to assume that every state will be visited even
 once.
 In these situations, we need to rely on a model such as a neural network that
 is able to generalise to estimate the value of new states based on their
 similarity with states that have previously been encountered.
 
 \subsection{Optional video}\label{subsec:optional-video7}
+insert video
 
 \subsection{Computer Game Playing}\label{subsec:computer-game-playing}
 Suppose we want to write a computer program to play a game like backgammon,
@@ -430,7 +453,7 @@ But we need:
 
 \begin{figure}[h]
     \centering
-    \includegraphics{/home/noone/probabilistic policy/backgammon}
+    \includegraphics[width=\textwidth]{../out/images/backgammon}
     \caption[backgammon]{backgammon}
     \label{fig:backgammon}
 \end{figure}
@@ -553,17 +576,18 @@ The TD-network outperformed the EP-network, and with modifications such as
 became the best backgammon player in the world in 1995.
 
 \subsection{Optional video}\label{subsec:optional-video8}
+insert video
 
 \subsection{Exercise: Reinforcement learning}\label{subsec:exercise:-reinforcement-learning}
 
-\textbb{question 1}
 Consider an environment with two states $S = \{\ S_1, S_2 \}\ $ and two actions
 $A = \{\ a_1, a_2 \}\ $
 where the deterministic transitions $\delta$ and reward $R$ for each state and
 action are as follows:
-\begin{figure}[h]
+
+\begin{figure}[H]
     \centering
-    \includegraphics{/home/noone/Documents/GitHub/neural_networks/out/images/question-1}
+    \includegraphics[width=\textwidth]{../out/images/question-1}
     \caption[question 1]{question 1}
     \label{fig:question 1}
 \end{figure}
@@ -577,19 +601,55 @@ action are as follows:
 \end{aligned}
 \]
 
-\textbb{Question 2}
+\textbf{question 1}
 Assuming a discount factor of $\gamma = 0.7$, determine the optimal policy
-$\pi^* : S \to R$
+$\pi^* : S \to A$
 
-\textbb{Answer}
+\textbf{Answer}
+\[
+\begin{aligned}
+\pi^* (S_1) &= a_2 \\
+\pi^* (S_2) &= a_1 \\
+\end{aligned}
+\]
 
-\textbb{Question 3}
+\textbf{Question 2}
+Still assuming $\gamma = 0.7$ determine the value function $V: S \\to R$
+
+\textbf{Answer}
+\[
+\begin{aligned}
+    V(S_1) &= 5.69 \\
+    V(S_2) &= 10.98 \\
+\end{aligned}
+\]
+
+\textbf{Explanation}
+\[
+\begin{aligned}
+V(S_1) &= -2 + \gamma V(S_2) \\
+V(S_2) &= +7 + \gamma V(S_1) \\
+\text{So} V(S_1) &= -2 + 7 \gamma + \gamma^2 V(S_1) \\
+\text{i.e.} V(S_1) &= \dfrac{-2 + 7\gamma}{1 - \gamma^2} = \dfrac{-2 + 7 \times 0.7}{1 - 0.49} = 5.69 \\
+\text{Then} V(S_2) &= 7 + 0.7 \times 5.69 = 10.98\\
+\end{aligned}
+\]
+
+\textbf{Question 3}
 still assuming $\gamma = 0.7$, determine the values of the Q-function
 $Q: S \times A \to R$
 
-\textbb{Answer}
+\textbf{Answer}
+\[
+\begin{aligned}
+Q(S_1, a_1) &= 1 + \gamma V (S_1) &= 4.98 \\
+Q(S_1, a_2) &= V(S_1) &= 5.69 \\
+Q(S_2, a_1) &= V(S_2) &= 10.98 \\
+Q(S_2, a_2) &= 3 + \gamma V(S_2) &= 10.69 \\
+\end{aligned}
+\]
 
-\textbb{Question 4}
+\textbf{Question 4}
 Still assuming $\gamma = 0.7$, trace through the first few steps of the
 Q-learning algorithm, assuming a learning rate of 1 and with all Q values
 initially set to zero.
@@ -609,9 +669,60 @@ If action  is chosen, the agent will get a reward of +1 and the update will be
 
 \[Q(S_1, a_1) \leftarrow 1 + \gamma \times 0 = 1\]
 
-\textbb{Answer}
+\textbf{Answer}
+With a deterministic environment and a learning rate of 1, the Q-learning update rule is
+\[Q(S,a) \leftarrow r(S,a) + \gamma \max Q(\delta(S,a),b)\]
 
-\textbb{Question 5}
+if the agent starts in a state $S_1$ and chooses action $a_1$, it will get a reward of +1 and the update will be:
+
+\[Q(S_1, a_1) \leftarrow 1 + \gamma \times 0 = 1\]
+
+we do \textbf{not} force exploration, the agent will always prefer action $a_1$
+in state $S_1$, and will never explore action $a_2$ this means that $Q(S_1, a_2)$
+will remain zero forever, instead of converging to the true value of 5.69.
+If we \textbf{do} force exploration, the next steps may look like this:
+
+\begin{center}
+\begin{tabular}{ c c c }
+ current state & chosen state & new Q value \\
+ $cell4S_1$ & $cell5a_2$ & $-2 + \gamma \times = -2$ \\
+ $S_2$ & $a_2$ & $3 + \gamma \times 0 = 3$
+\end{tabular}
+\end{center}
+
+At this point the table looks like this:
+
+\begin{center}
+\begin{tabular}{ c c c }
+ Q & $a_1$ & $a_2$ \\
+ $S_1$ & 1 & -2 \\
+ $cell7S_2$ & 0 & 3
+\end{tabular}
+\end{center}
+
+Again we need to force exploration in order to the get the agent to choose $a_1$
+from $S_2$ and to again choose $a_2$ from $S_1$
+
+\begin{center}
+\begin{tabular}{ c c c }
+ current state & chosen action & new Q value \\
+ $cell4S_2$ & $a_1$ & $7 + \gamma \times 1 = 7.7$ \\
+ $S_1$ & $a_2$ & $-2 + \gamma 7.7 = 3.39$
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ c c c }
+ Q & $a_1$ & $a_2$ \\
+ $S_1$ & 1 & 3.39 \\
+ $S_2$ & 7.7 & 3
+\end{tabular}
+\end{center}
+
+Further steps will refine the Q value estimates, and in the limit they will
+converge to their true values
+
+\textbf{Question 5}
 Now let's consider how the value function changes as the discount factor $\gamma$
 varies between 0 and 1.
 There are four deterministic policies for this environment, which can be
@@ -621,34 +732,72 @@ $\pi_{ij} (S_1) = a_1, \pi_{ij}(S_2) = a_j$
 Calculate the value function $V_{(\gamma)}^{\pi}: S \to R$ for each of these
 four policies (keeping $\gamma$ as a variable)
 
-\textbb{Answer}
+\textbf{Answer}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{../out/images/5a_5}
+    \caption[5a\_5]{5a\_5}
+    \label{fig:5a_5}
+\end{figure}
 
-\textbb{Question 6}
+\textbf{Question 6}
 Determine for which range of values $\gamma$ each of the policies
 $\pi_{11}, \pi_{12}, \pi_{21}, \pi_{22}$ is optimal
 
-\textbb{Answer}
+\textbf{Answer}
+$\pi_{11}$ is optimal when:
+\[0 < V_{11}^{\pi}(S_1) - V_{21}^{\pi} (S_1) = \dfrac{(1+\gamma) - (-2 + 7\gamma)}{1 - \gamma^2} = \dfrac{3 - 6\gamma}{1 - \gamma^2} \text{i.e.} 0 \leq \gamma \leq 0.5\]
+
+$\pi_{22}$ is optimal when
+
+\[0 < V_{22}^{\pi}(S_2) - V_{21}^{\pi} (S_2) = \dfrac{3(1 + \gamma) - (7 - 2\gamma)}{1 - \gamma^2} = \dfrac{-4 + 5\gamma}{1 - \gamma^2} \text{i.e.} 0.8 \leq \gamma \leq 1.0\]
+
+$\pi_{21}$ is optimal for $0.5 \leq \gamma \leq 0.8$
+
+$\pi_{12}$ is never optimal because it is dominated by $\pi_{11}$ when $\gamma < 2/3$ and by $\pi_{22}$ when $\gamma > 0.6$
 
 \subsection{Exercise: Reinforcement Learning}\label{subsec:exercise:-reinforcement-learning2}
 This is a revision quiz to test your understanding of the material from Week 5 on Reinforcement Learning.
 
 You must attempt to answer each question yourself, before looking at the sample answer.
 
-\textbb{Question 1}
+\textbf{Question 1}
 Describe the elements (sets and functions) that are needed to give a formal
 description of a reinforcement learning environment.
 What is the difference between a deterministic environment and a stochastic
 environment?
 
-\textbb{Answer}
+\textbf{Answer}
+Formally, a reinforcement learning environment is defined by a set of
+$\mathcal{S}$ states, a set of $\mathcal{A}$, a transition function $\delta$
+and a reward function $\mathcal{R}$
 
-\textbb{Question 2}
+For a stochastic environment $\delta$ and $\mathcal{R}$ are single-valued functions:
+\[
+\begin{aligned}
+    \delta : \mathcal{S} \times \mathcal{A} \to \mathcal{S} \\
+    \mathcal{R}: \mathcal{S} \times \mathcal{A} \to \mathbb{R}
+\end{aligned}
+\]
+
+For a stochastic environment $\delta$ and/or $\mathcal{R}$ are not
+single-valued, but instead define a probability distribution on $\mathcal{S}$
+or $\mathbb{R}$
+
+\textbf{Question 2}
 Name three different models of optimality in reinforcement learning, and give
 a formula for calculating each one.
 
-\textbb{Answer}
+\textbf{Answer}
+\[
+\begin{aligned}
+    \text{Finite horizon reward} &: \sum_{i=0}^{h-1} r_{t+i} \\
+    \text{Infinite discounted reward} &: \sum_{i=0}^{\infty} \gamma^i r_{t+i}, 0 \leq \gamma < 1 \\
+    \text{Average reward} &: \lim_{h \to \infty} \dfrac{1}{h} \sum_{h-1}^{i=0} r_{t+i}
+\end{aligned}
+\]
 
-\textbb{Question 3}
+\textbf{Question 3}
 What is the definition of:
 \begin{itemize}
     \item the optimal policy
@@ -656,9 +805,22 @@ What is the definition of:
     \item the Q-function?
 \end{itemize}
 
-\textbb{Answer}
+\textbf{Answer}
+the optimal policy is the function $\pi^* : \mathcal{S} \to \mathcal{A}$ which maximises the infinite discounted reward.
 
-\textbb{Question 4}
+the value function $V^{\pi}(S)$ is the expected infinite discounted reward
+received by an agent who begins in state $s$, first performs action $a$ and
+then $V^*(s) = V^{\pi^*}(s)$ is the maximum (expected) infinite discounted
+reward obtainable from state $s$
+
+The Q-function $Q^{\pi}(spa)$ is the expected infinite discounted reward
+received by an agent who begins in state $s$, first performs action $a$ and
+then follows policy $\pi$ for all subsequent timesteps If $\pi = \pi^*$ is
+optimal, then $Q^*(s,a) = Q^{\pi}^* (s,a)$ is the maximum (expected) discounted
+reward obtainable from $s$ if the agent is forced to take action $a$ in the
+first time step but can act optimally thereafter.
+
+\textbf{Question 4}
 Assuming a stochastic environment, discount factor $\gamma$ and learning rate
 of $\eta$, write the equation for
 \begin{itemize}
@@ -667,11 +829,17 @@ of $\eta$, write the equation for
 \end{itemize}
 Remember to define any symbols you use.
 
-\textbb{Answer}
+\textbf{Answer}
+\begin{gather*}
+    V(s_t) \leftarrow V(s_t) + \eta [r_t + \gamma V (s_{t + 1}) - V(s_{t})]\\
+    Q(s_t, a_t ) \leftarrow Q(s_t a_t) + \eta [r_t + \gamma \max_b Q(s_{t+1}, b)- Q(s_t, a_t)]\\
+    s_t = \text{ state at time } t, a_t = \text{ action performed at time} t, \\
+    r_t = \text{ reward received at time }t, s_{t+1} = \text{ state at time } t + 1 \\
+\end{gather*}
 
-\section{Policy Learning and Deep RL}\label{sec:policy-learning-and-deep-rl}
+\part{Policy Learning and Deep RL}\label{part:policy-learning-and-deep-rl}
 
-\subsection{Policy Learning}\label{subsec:policy-learning}
+\section{Policy Learning}\label{sec:policy-learning}
 Policy learning algorithms do not use a value function but instead operate
 directly on the policy, chosen from a family of policies
 $\pi_{\theta}: S \mapto A$ determined by parameters $\theta$.
@@ -692,13 +860,133 @@ received in each game by an agent using policy $\pi_{\theta}$.
 \[\text{fitness}(\pi_{\theta}) = V^{\pi \theta}(s_0) = E_{\pi \theta} (r_{\text{total}})\]
 
 Policy Learning algorithms include Policy Gradients, which use gradient descent
-to modify the parameters , and Evolution Strategies, which make random changes
+to modify the parameters $$, and Evolution Strategies, which make random changes
 to  and keep only those updates that are seen to increase the reward.
 
 \section{Deep Reinforcement Learning}\label{sec:deep-reinforcement-learning}
+\subsection{Deep Reinforcement Learning}\label{subsec:deep-reinforcement-learning}
+\subsection{Deep Q-Learning for Atari Games}\label{subsec:deep-q-learning-for-atari-games}
 
+Mnih (2015) demonstrated how Q-learning could be combined with deep CNNs to
+learn to play Atari games from pixels.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../out/images/atari-games}
+    \caption[atari games]{atari games}
+    \label{fig:atari games}
+\end{figure}
+
+The input state $s$ is a stack of raw pixels from four consecutive frames.
+The images are converted from 8-bit RGB images at resolution $210 \times 160$
+pixels to $84 \times 84$ greyscale images.
+The 18 outputs are the Q-values $Q(s,a)$ for 18 different combinations of
+joystick/button positions.
+The reward is the change in score during the timestep.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../out/images/deep-q-learning}
+    \caption[deep q learning]{deep q learning}
+    \label{fig:deep q learning}
+\end{figure}
+Recall the Q-Learning update rule:
+
+\[Q(s_t, a_t ) \leftarrow Q(s_t, a_t ) + \eta \bigg[ r_t + \gamma \max Q(s_{t+1}, b) - Q(s_t,a_t)\bigg]\]
+
+If a lookup table is used to store the Q values for every state and action
+separately, the algorithm is guaranteed to eventually converge to an optimal
+policy.
+But, if the number of states is exponentially large, we must instead use a
+neural network $Q_w$ and adjust the weights www according to the Q-Learning update
+rule, which is equivalent to minimizing:
+
+\[\Bigg[ r_t + \gamma \max Q_w (s_{t+1}, b) - Q_w (s_i, a_t) \Bigg]^2\]
+
+The gradient is applied only to $Q_w (s_t, a_t)$, \textbb{not} to $Q_w (s_{t+1}, b)$.
+
+\section{Experience Replay}\label{sec:experience-replay}
+Training of deep neural networks for classification tasks generally requires
+that each mini-batch should include a variety of different inputs and target
+outputs.
+For Atari games, many similar states may occur in succession, often with the
+same action being selected.
+We can remove this \textbf{temporal} correlation between samples by storing
+experiences in a Replay Buffer.
+
+In this scenario, one thread repeatedly plays the game, selecting its actions
+using an $\epsilon$-greedy strategy based on the current $\epsilon$-values, and
+builds a database of experiences $s_t, a_t, r_t, s_{t+1}$.
+Another thread samples asynchronously from this database and applies the
+Q-learning rule to minimize
+
+\[\Bigg[ r_t + \gamma \max Q_w (s_{t+1}, b) - Q_w (s_t, a_t) \Bigg]^2\]
+
+This removes temporal correlations by sampling from a variety of game
+situations in random order, and also makes it easier to parallelize the
+algorithm on multiple GPUs.
+
+\section{Optional video}\label{sec:optional-video11}
+
+\section{Prioritised Replay}\label{sec:prioritised-replay}
+Instead of sampling experiences uniformly, it may be more efficient to store
+and retrieve them in a priority queue with priority based on the DQN error (Schaul, 2015).
+\[|r_t + \gamma \max Qw(s_{t+1}, b) - Q_w (s_t, a_t)|\]
+
+This ensures the system will concentrate more effort on situations where the
+value was \("\)surprising\("\) (in the sense of being far away from what was predicted).
+
+\section{Double Q-Learning}\label{sec:double-q-learning}
+If the same weights www are used to select actions and to evaluate actions (as
+well as states) the network may learn a suboptimal strategy due to a kind of
+\("\)confirmation bias\("\).
+One way to avoid this is to maintain two sets of weights www and , with one
+used for action selection and the other for evaluation (then swap their roles).
+
+In the context of Deep Q-learning, a simpler approach is to use the current
+\("\)online\("\) version of www for selection, and an older \("\)target\("\)
+version for evaluation (Van Hasselt, 2016).
+We therefore minimize
+
+A new version of is periodically calculated from the distributed values of $$ and
+this $$ is broadcast to all processors.
+
+\section{Advantage Function}\label{sec:advantage-function}
+
+The  Function  can be written as a sum of the value function  plus an advantage function
+ represents the advantage (or disadvantage) of taking action aaa in state $s$,
+compared to taking the action preferred by the current policy .
+We can learn approximations for these two components separately:
+
+\[\]
+
+Note that actions can be selected just using , because
+
+\section{Optional video}\label{sec:optional-video10}
+
+\subsection{Advantage Actor-Critic}\label{subsec:advantage-actor-critic}
+Recall that in the REINFORCE algorithm, a baseline bbb could be subtracted from
+for the purpose of variance reduction.
+
+In the actor-critic framework,
+
+We can also subtract a baseline from .
+This baseline must be independent of the action at, , but it could be dependent on the state .
+A good choice of baseline is the value function , in which case the Q function is replaced by the advantage function
+
+\subsection{Asynchronous Advantage Actor-Critic}\label{subsec:asynchronous-advantage-actor-critic}
+
+The Asynchronous Advantage Actor-Critic or  Algorithm combines a policy network , a value function network and an (estimated) Q-function.
+\begin{itemize}
+    \item use polity network  to choose actions
+    \item learn a parameterised value function (s) by TD-learning
+    \item estimate Q-value by n-step sample
+    \item update policy  by
+    \item update value function  by minimising
+\end{itemize}
+
+\subsection{Optional video}\label{subsec:optional-video9}
 
 \section{Examples of Deep Reinforcement Learning}\label{sec:examples-of-deep-reinforcement-learning}
-
 
 \end{document}

@@ -144,16 +144,16 @@
 -------------------------------------------------------
 # week 5: Reinforcement Learning
 ## lecture slides
-- 5a: Reinforcement Learning
-- 5b: Policy Learning & DeepRL
+- 5a: Reinforcement Learning 🗸
+- 5b: Policy Learning & DeepRL 🗸
 
 ## lecture attendance, videos and notes
-- tuesday 
-- thursday
+- tuesday 🗸
+- thursday 🗸
 
 ## exercises
-- exercise: reinforcement learning
-- revision 7: reinforcement learning
+- exercise: reinforcement learning 🗸
+- revision 7: reinforcement learning 🗸
 
 ## video recordings & notes:
   - ()
