@@ -143,8 +143,8 @@
   - word embeddings (18:13)
   - word2vec (25:49)
   - negative sampling (9:06)
-  - microsoft racist robot ai ()
-  - gpt 3 language models are few shot learners()
+  - microsoft racist robot ai () 🗸
+  - gpt 3 language models are few shot learners() 🗸
 
 ## Readings
 - parallel networks that learn to pronounce english text
@@ -178,34 +178,38 @@
 - revision 7: reinforcement learning 🗸
 
 ## video recordings & notes:
-  - probabilistic policies ()
-  - reinforcement learning framework ()
-  - summing an infinite series ()
-  - RL approaches ()
-  - Computing the value function ()
-  - Q learning Function ()
-  - temporal difference learning ()
-  - theoretical results ()
-  - computer games playing ()
-  - policy learning ()
-  - evolutionary learning ()
-  - policy gradients ()
-  - pac man ()
-  - the log trick ()
-  - actor critic ()
-  - deep q learning for atari games ()
-  - DQN improvements ()
-  - advantage actor critic ()
-  - examples of deep reinforcement learning ()
-  - deep reinforcement learning ()
-  - 
+- reinforcement learning (4:42)
+- reinforcement learning frameworks (9:53)
+- summing an infinite series (5:15)
+- k-armed bandit problem (7:27)
+- Computing the value function (7:04)
+- Q learning Function (2:58)
+- temporal difference learning and Q learning (8:21)
+- theoretical results and generalisation (3:24)
+- computer game playing (17:17)
+
+- policy learning (3:09)
+- evolutionary learning (10:33)
+- policy gradients (7:03)
+- pac man (7:16)
+- the log trick ()
+- actor critic ()
+
+- deep q learning for atari games ()
+- DQN improvements ()
+- advantage actor critic ()
+- deep reinforcement learning ()
+- examples of deep reinforcement learning ()
+- theoretical results ()
+- computer games playing ()
+- 
 ## readings
 - Learning to Predict by the methods of temporal differences
 - Learning with delayed rewards
 - Q-learning
 - TD converges with probability 1
 - Practical issues in temporal difference learning 
-- boot-strapping from game tree search
+- bootstrapping from game tree search
 - exploring evolutionary learning in a simulated hockey environment
 - Evolution strategies as a scalable alternative to reinforcement learning
 - Simple statistical gradient following algorithms for connectionist reinforcement learning
@@ -213,7 +217,7 @@
 - prioritised experience replay
 - deep reinforcement learning with double q learning
 - asynchronous methods for deep reinforcement learning
-- 
+
 -------------------------------------------------------
 # week 6: Unsupervised Learning
 ## lecture slides
